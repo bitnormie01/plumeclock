@@ -87,7 +87,7 @@ go in chat each time: approving an OAuth/SSO grant, and accepting terms or rules
 |---|---|---|---|---|
 | 1 | Four burner wallets → user env store | A | **preflight** | **done** 2026-10-15 |
 | 2 | Faucet ≥ 0.02 Base Sepolia ETH → deployer (+ kit write-back) | B (ran as A: no human moment arose) | **preflight** | **done** 2026-10-15 |
-| 3 | Devpost sign-in + hackathon registration check | B | **preflight** | pending |
+| 3 | Devpost sign-in + hackathon registration check | B | **preflight** | **blocked** — the user needs to sign in on Devpost |
 | 4 | Optional `LLM_API_KEY` (Anthropic) | B (billing part C) | **preflight** | pending |
 | 5 | `demo:4.5` deploy to Base Sepolia + Blockscout verify | A | closing | pending |
 | 6 | `demo:4.6` demo run on Base Sepolia | A | closing | pending |
@@ -236,7 +236,19 @@ Batching is fine when named ("run gates 1–2"), but never assumed.
   - If not registered: the user reads the rules and clicks "Join hackathon".
   - If there's no Devpost account: the user creates one.
 - **Risk:** none from the check. Registering late risks missing a pre-deadline organizer step.
-- **Status:** pending.
+- **Evidence (2026-10-15, read-only, claude-in-chrome):**
+  - On `https://ieee-climatechain-hack.devpost.com/`, the header shows "Log in" and "Sign up". The
+    user is **not signed in to Devpost** in the Chrome profile the extension drives.
+  - The page offers "Join hackathon", so registration can't be read while logged out.
+  - Live page facts: "10 more days to deadline" and "Deadline 25 Oct 2026 @ 7:30pm GMT+5:30" (=
+    19:30 IST, matching the draft). The page shows 843 participants and "$3,000 in cash".
+  - The overview asks participants to "register to receive regular updates and access upcoming
+    sessions".
+  - No click was made beyond reading: no sign-in and no Join.
+- **Status:** **blocked**. Next steps:
+  1. The user signs in to Devpost in this Chrome profile, with the account they will submit from.
+  2. On the user's word, the agent re-reads the identity and the registration state.
+  3. If not registered, the user reviews the rules and clicks "Join hackathon".
 
 ### 4 · Optional `LLM_API_KEY` (Anthropic)
 
@@ -435,3 +447,4 @@ Batching is fine when named ("run gates 1–2"), but never assumed.
 | 2026-10-15 | 2 | Faucet claim: Google Cloud Web3 faucet, Ethereum Sepolia, 0.05 ETH to the deployer, on the user's existing Google session. No signup, CAPTCHA, ToS or OAuth step. | `0x282b01ac…e75d` |
 | 2026-10-15 | 2 | Testnet bridge: 0.048 ETH from the deployer through Base's L1StandardBridge to Base Sepolia. | `0xf12848eb…1fcf` |
 | 2026-10-15 | 2 | Kit write-back `references/faucets/base-sepolia.md`. | `build-system@58d110a` |
+| 2026-10-15 | 3 | Devpost read-only check: not signed in (Log in / Sign up shown). No sign-in, no Join. | gate 3 evidence |
