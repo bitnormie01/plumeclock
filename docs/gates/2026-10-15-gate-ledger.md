@@ -38,10 +38,10 @@ go in chat each time: approving an OAuth/SSO grant, and accepting terms or rules
 | 2 | `gh` logged in | PASS | `gh auth status`: `bitnormie01` (keyring), scopes `gist, read:org, repo, workflow`. |
 | 3 | kit present + synced | CLEAR-with-substitute | `C:\ieee hackathon\build-system-main` is a ZIP snapshot (no `.git`). `gate-concierge/SKILL.md` and `references/tollgate.md` blob hashes equal `bitnormie01/build-system@b303ada` (main, 2026-07-13). The faucet write-back (gate 2) therefore needs a fresh git clone of `build-system`. |
 | 4 | project repo | PASS | `origin/main` = `7412567`. Ledger worktree created from it. |
-| 5 | claude-in-chrome responding | NOT GRANTED — not probed | Tools are listed in this session. They are not exercised until the user grants Chrome. Re-probe on grant (read the tab context). |
-| 6 | computer-use | NOT GRANTED — not probed | No gate below needs it (see *Grants*). |
-| 7 | email inbox | NOT GRANTED — not probed | No gate below needs it: one-time codes are the user's moment in this session. |
-| 8 | wallet extension / burner permission | extension N-A; burner permission NOT GRANTED | The dashboard is read-only (no wallet connect in the dashboard plan) and the demo signs from the CLI, so no extension gate exists. Burner-wallet permission gates 1, 2, 5 and 6. |
+| 5 | claude-in-chrome responding | PASS (granted 2026-10-15) | Granted by the user, together with the built-in browser pane for read-only faucet discovery. `tabs_context_mcp` answered in this session: no tab group of its own yet, so the extension is connected. |
+| 6 | computer-use | N-A — declined by the user | No gate below needs it (see *Grants*). |
+| 7 | email inbox | N-A — declined by the user | No gate below needs it: one-time codes are the user's moment in this session. |
+| 8 | wallet extension / burner permission | extension N-A; burner permission GRANTED (2026-10-15) | The dashboard is read-only (no wallet connect in the dashboard plan) and the demo signs from the CLI, so no extension gate exists. Burner-wallet permission gates 1, 2, 5 and 6. |
 | 15 | cross-session env store | PASS | `setx TOLLGATE_PROBE 1`, then `reg query` showed `REG_SZ 1`, then `reg delete /f`. The re-query exited 1 (removed). |
 
 ## Grants: what each one unlocks
@@ -58,10 +58,10 @@ go in chat each time: approving an OAuth/SSO grant, and accepting terms or rules
 
 | Env var | Store | Used by | Status |
 |---|---|---|---|
-| `DEPLOYER_PRIVATE_KEY` | user env store `HKCU\Environment` (tollgate row 15) | gates 2, 5, 6 | not issued |
-| `FEEDER_PRIVATE_KEY` | `HKCU\Environment` | gates 5, 6 | not issued |
-| `OPERATOR_A_PRIVATE_KEY` | `HKCU\Environment` | gate 6 | not issued |
-| `OPERATOR_B_PRIVATE_KEY` | `HKCU\Environment` | gate 6 | not issued |
+| `DEPLOYER_PRIVATE_KEY` | user env store `HKCU\Environment` (tollgate row 15) | gates 2, 5, 6 | issued 2026-10-15 (gate 1) |
+| `FEEDER_PRIVATE_KEY` | `HKCU\Environment` | gates 5, 6 | issued 2026-10-15 (gate 1) |
+| `OPERATOR_A_PRIVATE_KEY` | `HKCU\Environment` | gate 6 | issued 2026-10-15 (gate 1) |
+| `OPERATOR_B_PRIVATE_KEY` | `HKCU\Environment` | gate 6 | issued 2026-10-15 (gate 1) |
 | `LLM_API_KEY` (optional) | `HKCU\Environment`, set by the user personally | gate 7 | not issued |
 
 - **Why the user env store and not `.env`:**
@@ -85,7 +85,7 @@ go in chat each time: approving an OAuth/SSO grant, and accepting terms or rules
 
 | # | Gate | Tier | Pass | Status |
 |---|---|---|---|---|
-| 1 | Four burner wallets → user env store | A | **preflight** | pending |
+| 1 | Four burner wallets → user env store | A | **preflight** | **done** 2026-10-15 |
 | 2 | Faucet ≥ 0.02 Base Sepolia ETH → deployer (+ kit write-back) | B | **preflight** | pending |
 | 3 | Devpost sign-in + hackathon registration check | B | **preflight** | pending |
 | 4 | Optional `LLM_API_KEY` (Anthropic) | B (billing part C) | **preflight** | pending |
@@ -119,6 +119,19 @@ Batching is fine when named ("run gates 1–2"), but never assumed.
   4. Verify in-process: each stored value is 0x + 64 hex and derives its recorded address.
   5. Record the public addresses here.
 - **Human moment:** none.
+- **Evidence (2026-10-15):**
+  - Ran `cast wallet new --number 4 --json` (cast 1.4.4-stable). The output was captured in a
+    variable and parsed; no key was printed.
+  - Re-read each name from `HKCU\Environment`: the format is OK, and
+    `cast wallet address --private-key` derives the address below. `reg query` lists the four
+    names.
+  - Public addresses:
+    - `DEPLOYER_PRIVATE_KEY` → `0xDa68A991EB0D7Ad51832d0ec10AC9484C505211B`
+    - `FEEDER_PRIVATE_KEY` → `0xa070bAD2302c0E57FA84D0473b21d8B1eb37B34D`
+    - `OPERATOR_A_PRIVATE_KEY` → `0xE17a32228332d4752065D32645F1c10E1619d91c`
+    - `OPERATOR_B_PRIVATE_KEY` → `0xfB12D53CB01f58e641D4cA5b8ACaC57b3F5306D7`
+  - **Note for gates 5–6:** Foundry is at `%USERPROFILE%\.foundryin`, which is not on this
+    session's PATH. Prepend it to that process's PATH before `forge build` and `npm run deploy`.
 - **Risk:**
   - The keys sit in plaintext in `HKCU\Environment`, readable by any process running as user
     `victu`.
@@ -126,7 +139,7 @@ Batching is fine when named ("run gates 1–2"), but never assumed.
     a log.
   - Gate 13 removes them.
   - Never touches the user's main wallet or MetaMask.
-- **Status:** pending.
+- **Status:** **done** 2026-10-15.
 
 ### 2 · Faucet: at least 0.02 Base Sepolia ETH to the deployer only
 
@@ -381,4 +394,6 @@ Batching is fine when named ("run gates 1–2"), but never assumed.
 
 | Date | Gate | Event | Evidence |
 |---|---|---|---|
-| 2026-10-15 | — | Ledger created (preflight inventory). Nothing executed. | this commit |
+| 2026-10-15 | — | Ledger created (preflight inventory). Nothing executed. | `029fd6f` |
+| 2026-10-15 | — | User granted: burner wallets, claude-in-chrome, and the built-in browser (read-only discovery). Declined: computer-use and the inbox. | chat |
+| 2026-10-15 | 1 | 4 burner keys issued with `cast wallet new` and stored in `HKCU\Environment` (names only). | gate 1 evidence |
