@@ -111,7 +111,7 @@ go in chat each time: approving an OAuth/SSO grant, and accepting terms or rules
 | 3 | Devpost sign-in + hackathon registration check | B | **preflight** | **blocked** — the user needs to sign in on Devpost |
 | 4 | Optional `LLM_API_KEY` (Anthropic) | B (billing part C) | **preflight** | pending |
 | 5 | `demo:4.5` deploy to Base Sepolia + Blockscout verify | A | closing | **done** 2026-10-16 (`2870cd7`) |
-| 6 | `demo:4.6` demo run on Base Sepolia | A | closing | pending |
+| 6 | `demo:4.6` demo run on Base Sepolia | A | closing | **done** 2026-10-16 (`bf27897`) |
 | 7 | `data:2.12` Claude-drafted notices (optional) | A | closing | pending (needs gate 4) |
 | 8 | Flip `bitnormie01/plumeclock` public | A (explicit consent) | closing | pending |
 | 9 | Host the live dashboard (GitHub Pages) — **plan gap** | A (explicit consent) | closing | pending — needs a decision |
@@ -359,7 +359,45 @@ Batching is fine when named ("run gates 1–2"), but never assumed.
 - **Human moment:** none.
 - **Risk:** testnet only. 0.001 test ETH is slashed into the fund by design. A redeploy rewrites
   `base-sepolia.json`, after which gate 5's evidence is updated.
-- **Status:** pending.
+- **Consent:** the user's go in this session, 2026-10-16 (same message as gate 5).
+- **Evidence (2026-10-16):** run in the canonical clone, with the keys loaded into each process
+  only.
+  1. `npm run deploy -- --network base-sepolia --check`: deployer 0.04798 ETH, above the 0.015
+     floor.
+  2. `npm run demo -- --network base-sepolia --fund --pause 3000`: a few minutes, mostly the 180 s
+     wait for the deadline, ending
+     `DEMO OK 12 transactions -> public/deployments/base-sepolia.demo.json`.
+     - Funding: the feeder, operator A and operator B each received 0.003 ETH from the deployer.
+     - Setup: both operators pledged, the feeder posted the snapshot root (1914 IMEO records), and
+       39 background tickets were opened.
+     - Scenes 1–3: tickets opened for IRQ_S_067 and KAZ_S_003; operator A attested; the replayed
+       re-observation root was posted (35 sources); IRQ_S_067 resolved.
+     - Scene 4: KAZ_S_003 was slashed after the 180 s window.
+     - No recovery redeploy was needed, so `base-sepolia.json` is unchanged.
+  3. Gate: `npm run check:demo -- --network base-sepolia`:
+     `DEMO RUN OK IRQ_S_067 resolved, KAZ_S_003 slashed (0.001 ETH to the fund)`.
+  4. Checked independently with `cast`:
+     - The slash tx receipt has status 1.
+     - The MitigationFund balance is exactly 0.001 ETH.
+     - The deployer has 0.03898 ETH left.
+  5. Secret scan of `base-sepolia.demo.json` against the four stored keys: 0 matches each.
+  6. Committed exactly `public/deployments/base-sepolia.demo.json` as
+     `chore(demo): record Base Sepolia demo run`, `bf27897` on main.
+- **Explorer links:** for the submission draft (gate 11) and the README.
+  - Slash tx (operator B, KAZ_S_003):
+    https://base-sepolia.blockscout.com/tx/0xd579f68d00ecbac4ae39d914cd5a5bff4ad52b1efec08d52cae1b3ad503b46c9
+  - Resolve tx (IRQ_S_067):
+    https://base-sepolia.blockscout.com/tx/0xd6a20d17ab06e44aa8fd2880c8df284fb1fab4b0d8a93a58b587031dd6183adf
+  - Operator A attestation:
+    https://base-sepolia.blockscout.com/tx/0x9b06405dcbe9dc0c565b3be6852d9a17b51712af943b1a4c2ac9f2055b62f764
+  - Snapshot root:
+    https://base-sepolia.blockscout.com/tx/0xda6cc690526594ff6610c7097826ab97369962a2a5694d0c9f71c8e8c2afd26e
+- **Status:** **done** 2026-10-16.
+- **Note for demo-studio:** the recorded video runs `npm run demo -- --network base-sepolia --deploy`
+  on a fresh deployment, per the plan.
+  - The deployer has about 0.039 ETH, enough for one more deploy plus a funded run.
+  - Each funded run costs about 0.009 ETH: 0.003 to each actor, plus gas.
+  - Top up again through gate 2's route if a re-take is needed.
 
 ### 7 · `data:2.12` — Claude-drafted notices (optional)
 
@@ -491,3 +529,4 @@ Batching is fine when named ("run gates 1–2"), but never assumed.
 | 2026-10-15 | 2 | Kit write-back `references/faucets/base-sepolia.md`. | `build-system@58d110a` |
 | 2026-10-15 | 3 | Devpost read-only check: not signed in (Log in / Sign up shown). No sign-in, no Join. | gate 3 evidence |
 | 2026-10-16 | 5 | Base Sepolia deploy (PlumeClock + MitigationFund), Blockscout source verification, deployment file committed. | `2870cd7` |
+| 2026-10-16 | 6 | Base Sepolia demo run: 3 × 0.003 ETH funding from the deployer, 12 demo txs, operator B's 0.001 ETH bond slashed to the fund. Demo file committed. | `bf27897` |
