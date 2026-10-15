@@ -214,7 +214,7 @@ Batching is fine when named ("run gates 1–2"), but never assumed.
   - **Kit write-back:** `references/faucets/base-sepolia.md` was created in a fresh clone of
     `bitnormie01/build-system` and pushed to its `main` as `58d110a`.
     - Public provider facts only.
-    - The local ZIP kit at `C:\ieee hackathonuild-system-main` does not have this file; re-clone
+    - The local ZIP kit at `C:\ieee hackathon\build-system-main` does not have this file; re-clone
       or pull to pick it up.
 - **Status:** **done** 2026-10-15. The deployer holds 0.048 Base Sepolia ETH, above the gate-5 floor
   of 0.02 and enough for gate 6's `--fund` top-ups.
