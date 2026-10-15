@@ -86,7 +86,7 @@ go in chat each time: approving an OAuth/SSO grant, and accepting terms or rules
 | # | Gate | Tier | Pass | Status |
 |---|---|---|---|---|
 | 1 | Four burner wallets → user env store | A | **preflight** | **done** 2026-10-15 |
-| 2 | Faucet ≥ 0.02 Base Sepolia ETH → deployer (+ kit write-back) | B | **preflight** | pending |
+| 2 | Faucet ≥ 0.02 Base Sepolia ETH → deployer (+ kit write-back) | B (ran as A: no human moment arose) | **preflight** | **done** 2026-10-15 |
 | 3 | Devpost sign-in + hackathon registration check | B | **preflight** | pending |
 | 4 | Optional `LLM_API_KEY` (Anthropic) | B (billing part C) | **preflight** | pending |
 | 5 | `demo:4.5` deploy to Base Sepolia + Blockscout verify | A | closing | pending |
@@ -184,7 +184,42 @@ Batching is fine when named ("run gates 1–2"), but never assumed.
   - Testnet ETH has no value.
   - Worst case: a provider wants a mainnet balance or a phone number. Then that provider is
     blocked, logged here, and the next one is tried.
-- **Status:** pending.
+- **Evidence (2026-10-15):**
+  - **Discovery:** the built-in browser pane hung on a site approval, so discovery ran read-only in
+    Chrome. Findings by provider:
+    - CDP faucet: redirects to a Coinbase sign-in, and the user has none signed in.
+    - Superchain faucet: sign-in plus reCAPTCHA, 0.01 ETH per day.
+    - thirdweb: wallet connect, 0.01 ETH per day.
+    - Alchemy: needs at least 0.001 mainnet ETH plus mainnet activity, so it's not
+      burner-compatible.
+    - Google Cloud Web3 faucet: offers Ethereum Sepolia at 0.05 ETH, but no Base Sepolia.
+  - **Claim:** used the Google Cloud Ethereum Sepolia faucet on the user's already signed-in Google
+    session. No new sign-in, OAuth grant, CAPTCHA or ToS step appeared, and no mainnet check was
+    triggered.
+    - Faucet tx `0x282b01ac83bd772ed7884c45b33c04ab239478ff88dca336c827a423e64de75d` (Sepolia,
+      status 1). The deployer received 0.05 Sepolia ETH.
+  - **Bridge:**
+    - The address came from the Base docs page *Base contracts*, under "Ethereum Testnet
+      (Sepolia)": `L1StandardBridge` `0xfd0Bf71F60660E2f608ed56e1659C450eB113120`.
+    - Checked on chain: `OTHER_BRIDGE()` returns `0x4200000000000000000000000000000000000010`.
+    - Sent `depositETH(200000, 0x)` with 0.048 ETH from the deployer: tx
+      `0xf12848eb47d342fa6c284490126bbf66aa4964fdad59e3aa891fd398b1e51fcf` (Sepolia block
+      11922132, status 1).
+    - The key went to that one `cast` process from a variable and was never printed.
+  - **Verify:**
+    - `cast balance 0xDa68A991EB0D7Ad51832d0ec10AC9484C505211B --rpc-url https://sepolia.base.org`
+      shows **0.048 ETH** on chain id 84532, first seen about 5 min 20 s after the L1 block.
+    - Blockscout's address API shows `coin_balance 48000000000000000`.
+    - About 0.002 Sepolia ETH is left on L1.
+  - **Kit write-back:** `references/faucets/base-sepolia.md` was created in a fresh clone of
+    `bitnormie01/build-system` and pushed to its `main` as `58d110a`.
+    - Public provider facts only.
+    - The local ZIP kit at `C:\ieee hackathonuild-system-main` does not have this file; re-clone
+      or pull to pick it up.
+- **Status:** **done** 2026-10-15. The deployer holds 0.048 Base Sepolia ETH, above the gate-5 floor
+  of 0.02 and enough for gate 6's `--fund` top-ups.
+- **Re-claim note:** if gate 6 needs a recovery redeploy and runs low, re-run this route. The
+  Google faucet is rate-limited per Google account and per address.
 
 ### 3 · Devpost sign-in and hackathon registration check
 
@@ -397,3 +432,6 @@ Batching is fine when named ("run gates 1–2"), but never assumed.
 | 2026-10-15 | — | Ledger created (preflight inventory). Nothing executed. | `029fd6f` |
 | 2026-10-15 | — | User granted: burner wallets, claude-in-chrome, and the built-in browser (read-only discovery). Declined: computer-use and the inbox. | chat |
 | 2026-10-15 | 1 | 4 burner keys issued with `cast wallet new` and stored in `HKCU\Environment` (names only). | gate 1 evidence |
+| 2026-10-15 | 2 | Faucet claim: Google Cloud Web3 faucet, Ethereum Sepolia, 0.05 ETH to the deployer, on the user's existing Google session. No signup, CAPTCHA, ToS or OAuth step. | `0x282b01ac…e75d` |
+| 2026-10-15 | 2 | Testnet bridge: 0.048 ETH from the deployer through Base's L1StandardBridge to Base Sepolia. | `0xf12848eb…1fcf` |
+| 2026-10-15 | 2 | Kit write-back `references/faucets/base-sepolia.md`. | `build-system@58d110a` |
