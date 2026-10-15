@@ -1,0 +1,20 @@
+{
+  "schema": "plumeclock.deployment.v1",
+  "network": "base-sepolia",
+  "chainId": 84532,
+  "rpcUrl": "https://sepolia.base.org",
+  "explorerUrl": "https://base-sepolia.blockscout.com",
+  "plumeClock": "0x921ab35694821aa04d716eccd5576563199e0adb",
+  "mitigationFund": "0x877585e6c29ab9493ea8897638248f76b51bada6",
+  "deployBlock": 48161574,
+  "responseWindowSeconds": 180,
+  "minBondWei": "500000000000000",
+  "actors": {
+    "deployer": "0xDa68A991EB0D7Ad51832d0ec10AC9484C505211B",
+    "feeder": "0xa070bAD2302c0E57FA84D0473b21d8B1eb37B34D",
+    "arbiter": "0xDa68A991EB0D7Ad51832d0ec10AC9484C505211B",
+    "operatorA": "0xE17a32228332d4752065D32645F1c10E1619d91c",
+    "operatorB": "0xfB12D53CB01f58e641D4cA5b8ACaC57b3F5306D7"
+  },
+  "deployedAt": "2026-10-15T19:10:36.815Z"
+}
