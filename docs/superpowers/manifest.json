@@ -1,0 +1,1442 @@
+{
+  "project": "plumeclock",
+  "spec": "docs/superpowers/specs/2026-10-15-plumeclock-design.md",
+  "subsystems": [
+    "contracts",
+    "data",
+    "dashboard",
+    "demo"
+  ],
+  "tasks": [
+    {
+      "id": "contracts:1.1",
+      "subsystem": "contracts",
+      "title": "Scaffold the repository toolchain",
+      "plan": "docs/superpowers/plans/2026-10-15-plumeclock-contracts.md",
+      "depends_on": [],
+      "effort": "low",
+      "model_tier": "fast",
+      "files": {
+        "create": [
+          "package.json",
+          "package-lock.json",
+          "tsconfig.json",
+          "next-env.d.ts",
+          "next.config.mjs",
+          "vitest.config.ts",
+          "vitest.e2e.config.ts",
+          "foundry.toml",
+          ".gitignore",
+          ".gitattributes",
+          ".env.example",
+          "LICENSE"
+        ],
+        "modify": [],
+        "test": [
+          "contracts/test/Smoke.t.sol",
+          "test/smoke.test.ts"
+        ]
+      },
+      "provides": [
+        "toolchain: package.json scripts (check, test:smoke, test:abi, test:e2e, verify:web, abi, pin, check:snapshot, fixtures, notices, deploy, verify:contracts, check:deployment, demo, check:demo) + foundry.toml (solc 0.8.28, src contracts/src, test contracts/test, out contracts/out)"
+      ],
+      "requires": [],
+      "gate": {
+        "run": "npm run test:smoke",
+        "expect": "PASS — forge prints `Suite result: ok. 1 passed; 0 failed` and vitest prints `Tests  1 passed (1)`"
+      },
+      "commit": "chore: scaffold npm + Foundry toolchain",
+      "human_gate": false,
+      "allow_empty": false,
+      "status": "pending"
+    },
+    {
+      "id": "contracts:1.2",
+      "subsystem": "contracts",
+      "title": "Contract types and MitigationFund",
+      "plan": "docs/superpowers/plans/2026-10-15-plumeclock-contracts.md",
+      "depends_on": [
+        "contracts:1.1"
+      ],
+      "effort": "high",
+      "model_tier": "top",
+      "files": {
+        "create": [
+          "contracts/src/PlumeTypes.sol",
+          "contracts/src/MitigationFund.sol"
+        ],
+        "modify": [],
+        "test": [
+          "contracts/test/MitigationFund.t.sol"
+        ]
+      },
+      "provides": [
+        "PlumeTypes.sol: enum Status {None, Open, Responded, Resolved, Slashed, Disputed, Dismissed}; enum RootKind {None, Snapshot, Reobservation}; structs SourceRecord, Reobservation, Attestation, DisputeClaim, RootInfo, Bond, Ticket; file-level custom errors; interface IPlumeClockEvents",
+        "MitigationFund(address steward_): receive(), disburse(address payable to, uint256 amount, string memo), steward(), totalReceived(), totalDisbursed()"
+      ],
+      "requires": [
+        "toolchain: package.json scripts (check, test:smoke, test:abi, test:e2e, verify:web, abi, pin, check:snapshot, fixtures, notices, deploy, verify:contracts, check:deployment, demo, check:demo) + foundry.toml (solc 0.8.28, src contracts/src, test contracts/test, out contracts/out)"
+      ],
+      "gate": {
+        "run": "forge test --match-contract MitigationFundTest",
+        "expect": "PASS — `Suite result: ok. 6 passed; 0 failed; 0 skipped`"
+      },
+      "commit": "feat(contracts): add PlumeTypes and MitigationFund",
+      "human_gate": false,
+      "allow_empty": false,
+      "status": "pending"
+    },
+    {
+      "id": "contracts:1.3",
+      "subsystem": "contracts",
+      "title": "PlumeBase: immutables, root registry, hashing, views",
+      "plan": "docs/superpowers/plans/2026-10-15-plumeclock-contracts.md",
+      "depends_on": [
+        "contracts:1.2"
+      ],
+      "effort": "high",
+      "model_tier": "top",
+      "files": {
+        "create": [
+          "contracts/src/PlumeBase.sol",
+          "contracts/test/utils/Fixtures.sol"
+        ],
+        "modify": [],
+        "test": [
+          "contracts/test/PlumeBase.t.sol"
+        ]
+      },
+      "provides": [
+        "abstract PlumeBase(address feeder_, address arbiter_, address payable mitigationFund_, uint64 responseWindow_, uint256 minBond_) is IPlumeClockEvents, EIP712(\"PlumeClock\", \"1\"), ReentrancyGuard: public immutables feeder, arbiter, mitigationFund, responseWindow, minBond; constants GWP100_X10 = 298, HOURS_PER_YEAR = 8760, MAX_REOPENS = 2; modifiers onlyFeeder, onlyArbiter; postRoot(bytes32,RootKind,string), rootInfo(bytes32), co2eTonnesPerYear(uint32), ticketIdFor(bytes32,uint64), hashSourceRecord(SourceRecord), hashReobservation(Reobservation), getBond(bytes32), activeBondedTicket(bytes32), ticketCount(), getTicket(bytes32), getTickets(uint256,uint256), getTransitionBlocks(bytes32); internal _roots, _bonds, _activeBondedTicket, _tickets, _transitionBlocks, _ticketIds, _recordTransition(bytes32), _close(Ticket storage, Status)",
+        "contracts/test/utils/Fixtures.sol: Fixtures.record(bytes32 sourceId, uint64 lastPlumeAt, uint32 rate), Fixtures.vectorRecord1(), Fixtures.vectorRecord2(), Fixtures.vectorObservation(), VECTOR_LEAF_1, VECTOR_LEAF_2, VECTOR_OBS_LEAF, VECTOR_ROOT_2"
+      ],
+      "requires": [
+        "PlumeTypes.sol: enum Status {None, Open, Responded, Resolved, Slashed, Disputed, Dismissed}; enum RootKind {None, Snapshot, Reobservation}; structs SourceRecord, Reobservation, Attestation, DisputeClaim, RootInfo, Bond, Ticket; file-level custom errors; interface IPlumeClockEvents",
+        "toolchain: package.json scripts (check, test:smoke, test:abi, test:e2e, verify:web, abi, pin, check:snapshot, fixtures, notices, deploy, verify:contracts, check:deployment, demo, check:demo) + foundry.toml (solc 0.8.28, src contracts/src, test contracts/test, out contracts/out)"
+      ],
+      "gate": {
+        "run": "forge test --match-contract PlumeBaseTest",
+        "expect": "PASS — `Suite result: ok. 11 passed; 0 failed; 0 skipped`"
+      },
+      "commit": "feat(contracts): add PlumeBase root registry, hashing and views",
+      "human_gate": false,
+      "allow_empty": false,
+      "status": "pending"
+    },
+    {
+      "id": "contracts:1.4",
+      "subsystem": "contracts",
+      "title": "PlumeBonds: pledge and withdraw",
+      "plan": "docs/superpowers/plans/2026-10-15-plumeclock-contracts.md",
+      "depends_on": [
+        "contracts:1.3"
+      ],
+      "effort": "high",
+      "model_tier": "top",
+      "files": {
+        "create": [
+          "contracts/src/PlumeBonds.sol"
+        ],
+        "modify": [],
+        "test": [
+          "contracts/test/PlumeBonds.t.sol"
+        ]
+      },
+      "provides": [
+        "abstract PlumeBonds is PlumeBase: pledge(bytes32 sourceId) payable, withdrawBond(bytes32 sourceId)"
+      ],
+      "requires": [
+        "abstract PlumeBase(address feeder_, address arbiter_, address payable mitigationFund_, uint64 responseWindow_, uint256 minBond_) is IPlumeClockEvents, EIP712(\"PlumeClock\", \"1\"), ReentrancyGuard: public immutables feeder, arbiter, mitigationFund, responseWindow, minBond; constants GWP100_X10 = 298, HOURS_PER_YEAR = 8760, MAX_REOPENS = 2; modifiers onlyFeeder, onlyArbiter; postRoot(bytes32,RootKind,string), rootInfo(bytes32), co2eTonnesPerYear(uint32), ticketIdFor(bytes32,uint64), hashSourceRecord(SourceRecord), hashReobservation(Reobservation), getBond(bytes32), activeBondedTicket(bytes32), ticketCount(), getTicket(bytes32), getTickets(uint256,uint256), getTransitionBlocks(bytes32); internal _roots, _bonds, _activeBondedTicket, _tickets, _transitionBlocks, _ticketIds, _recordTransition(bytes32), _close(Ticket storage, Status)"
+      ],
+      "gate": {
+        "run": "forge test --match-contract PlumeBondsTest",
+        "expect": "PASS — `Suite result: ok. 10 passed; 0 failed; 0 skipped`"
+      },
+      "commit": "feat(contracts): add per-source operator bonds",
+      "human_gate": false,
+      "allow_empty": false,
+      "status": "pending"
+    },
+    {
+      "id": "contracts:1.5",
+      "subsystem": "contracts",
+      "title": "PlumeTickets: open tickets from Merkle-proven IMEO records",
+      "plan": "docs/superpowers/plans/2026-10-15-plumeclock-contracts.md",
+      "depends_on": [
+        "contracts:1.4"
+      ],
+      "effort": "high",
+      "model_tier": "top",
+      "files": {
+        "create": [
+          "contracts/src/PlumeTickets.sol",
+          "contracts/test/utils/MerkleHelper.sol"
+        ],
+        "modify": [],
+        "test": [
+          "contracts/test/PlumeTickets.t.sol"
+        ]
+      },
+      "provides": [
+        "abstract PlumeTickets is PlumeBonds: openTicket(bytes32 root, SourceRecord rec, bytes32[] proof) returns (bytes32), openTickets(bytes32 root, SourceRecord[] recs, bytes32[][] proofs) returns (bytes32[])",
+        "contracts/test/utils/MerkleHelper.sol: MerkleHelper.root(bytes32[] leaves), MerkleHelper.proof(bytes32[] leaves, bytes32 leaf)"
+      ],
+      "requires": [
+        "abstract PlumeBonds is PlumeBase: pledge(bytes32 sourceId) payable, withdrawBond(bytes32 sourceId)",
+        "contracts/test/utils/Fixtures.sol: Fixtures.record(bytes32 sourceId, uint64 lastPlumeAt, uint32 rate), Fixtures.vectorRecord1(), Fixtures.vectorRecord2(), Fixtures.vectorObservation(), VECTOR_LEAF_1, VECTOR_LEAF_2, VECTOR_OBS_LEAF, VECTOR_ROOT_2"
+      ],
+      "gate": {
+        "run": "forge test --match-contract PlumeTicketsTest",
+        "expect": "PASS — `Suite result: ok. 9 passed; 0 failed; 0 skipped`"
+      },
+      "commit": "feat(contracts): open tickets from Merkle-proven IMEO records",
+      "human_gate": false,
+      "allow_empty": false,
+      "status": "pending"
+    },
+    {
+      "id": "contracts:1.6",
+      "subsystem": "contracts",
+      "title": "PlumeResponses: EIP-712 attestations and disputes",
+      "plan": "docs/superpowers/plans/2026-10-15-plumeclock-contracts.md",
+      "depends_on": [
+        "contracts:1.5"
+      ],
+      "effort": "xhigh",
+      "model_tier": "top",
+      "files": {
+        "create": [
+          "contracts/src/PlumeResponses.sol"
+        ],
+        "modify": [],
+        "test": [
+          "contracts/test/PlumeResponses.t.sol"
+        ]
+      },
+      "provides": [
+        "abstract PlumeResponses is PlumeTickets: respond(bytes32,Attestation,bytes), dispute(bytes32,DisputeClaim,bytes), settleDispute(bytes32,bool), attestationDigest(Attestation), disputeDigest(DisputeClaim), ATTESTATION_TYPEHASH, DISPUTE_TYPEHASH"
+      ],
+      "requires": [
+        "abstract PlumeTickets is PlumeBonds: openTicket(bytes32 root, SourceRecord rec, bytes32[] proof) returns (bytes32), openTickets(bytes32 root, SourceRecord[] recs, bytes32[][] proofs) returns (bytes32[])",
+        "contracts/test/utils/MerkleHelper.sol: MerkleHelper.root(bytes32[] leaves), MerkleHelper.proof(bytes32[] leaves, bytes32 leaf)"
+      ],
+      "gate": {
+        "run": "forge test --match-contract PlumeResponsesTest",
+        "expect": "PASS — `Suite result: ok. 15 passed; 0 failed; 0 skipped`"
+      },
+      "commit": "feat(contracts): EIP-712 operator attestations and disputes",
+      "human_gate": false,
+      "allow_empty": false,
+      "status": "pending"
+    },
+    {
+      "id": "contracts:1.7",
+      "subsystem": "contracts",
+      "title": "PlumeReobservations: resolve or reopen from a proven re-observation",
+      "plan": "docs/superpowers/plans/2026-10-15-plumeclock-contracts.md",
+      "depends_on": [
+        "contracts:1.6"
+      ],
+      "effort": "high",
+      "model_tier": "top",
+      "files": {
+        "create": [
+          "contracts/src/PlumeReobservations.sol"
+        ],
+        "modify": [],
+        "test": [
+          "contracts/test/PlumeReobservations.t.sol"
+        ]
+      },
+      "provides": [
+        "abstract PlumeReobservations is PlumeResponses: resolve(bytes32 ticketId, bytes32 root, Reobservation obs, bytes32[] proof), reopen(bytes32 ticketId, bytes32 root, Reobservation obs, bytes32[] proof)"
+      ],
+      "requires": [
+        "abstract PlumeResponses is PlumeTickets: respond(bytes32,Attestation,bytes), dispute(bytes32,DisputeClaim,bytes), settleDispute(bytes32,bool), attestationDigest(Attestation), disputeDigest(DisputeClaim), ATTESTATION_TYPEHASH, DISPUTE_TYPEHASH"
+      ],
+      "gate": {
+        "run": "forge test --match-contract PlumeReobservationsTest",
+        "expect": "PASS — `Suite result: ok. 9 passed; 0 failed; 0 skipped`"
+      },
+      "commit": "feat(contracts): resolve or reopen tickets from re-observations",
+      "human_gate": false,
+      "allow_empty": false,
+      "status": "pending"
+    },
+    {
+      "id": "contracts:1.8",
+      "subsystem": "contracts",
+      "title": "PlumeClock: permissionless slash and the full money-shot flow",
+      "plan": "docs/superpowers/plans/2026-10-15-plumeclock-contracts.md",
+      "depends_on": [
+        "contracts:1.7"
+      ],
+      "effort": "xhigh",
+      "model_tier": "top",
+      "files": {
+        "create": [
+          "contracts/src/PlumeClock.sol"
+        ],
+        "modify": [],
+        "test": [
+          "contracts/test/PlumeClock.t.sol"
+        ]
+      },
+      "provides": [
+        "contract PlumeClock(address feeder_, address arbiter_, address payable mitigationFund_, uint64 responseWindow_, uint256 minBond_) is PlumeReobservations: slash(bytes32 ticketId)"
+      ],
+      "requires": [
+        "abstract PlumeReobservations is PlumeResponses: resolve(bytes32 ticketId, bytes32 root, Reobservation obs, bytes32[] proof), reopen(bytes32 ticketId, bytes32 root, Reobservation obs, bytes32[] proof)",
+        "MitigationFund(address steward_): receive(), disburse(address payable to, uint256 amount, string memo), steward(), totalReceived(), totalDisbursed()"
+      ],
+      "gate": {
+        "run": "forge test --match-contract PlumeClockTest",
+        "expect": "PASS — `Suite result: ok. 6 passed; 0 failed; 0 skipped`"
+      },
+      "commit": "feat(contracts): permissionless slash into the mitigation fund",
+      "human_gate": false,
+      "allow_empty": false,
+      "status": "pending"
+    },
+    {
+      "id": "contracts:1.9",
+      "subsystem": "contracts",
+      "title": "Invariant suite for bond and fund accounting",
+      "plan": "docs/superpowers/plans/2026-10-15-plumeclock-contracts.md",
+      "depends_on": [
+        "contracts:1.8"
+      ],
+      "effort": "high",
+      "model_tier": "top",
+      "files": {
+        "create": [],
+        "modify": [],
+        "test": [
+          "contracts/test/PlumeClockInvariant.t.sol"
+        ]
+      },
+      "provides": [
+        "PlumeClockInvariantTest: balance == sum of bonds; fund == slashed bonds; active slots point to live bonded tickets; closed tickets never change"
+      ],
+      "requires": [
+        "contract PlumeClock(address feeder_, address arbiter_, address payable mitigationFund_, uint64 responseWindow_, uint256 minBond_) is PlumeReobservations: slash(bytes32 ticketId)"
+      ],
+      "gate": {
+        "run": "forge test --match-contract PlumeClockInvariantTest",
+        "expect": "PASS — `Suite result: ok. 4 passed; 0 failed; 0 skipped` (each invariant line shows `runs: 64, calls: 2048`)"
+      },
+      "commit": "test(contracts): invariant suite for bond and fund accounting",
+      "human_gate": false,
+      "allow_empty": false,
+      "status": "pending"
+    },
+    {
+      "id": "contracts:1.10",
+      "subsystem": "contracts",
+      "title": "Export the contract ABIs to TypeScript",
+      "plan": "docs/superpowers/plans/2026-10-15-plumeclock-contracts.md",
+      "depends_on": [
+        "contracts:1.8"
+      ],
+      "effort": "low",
+      "model_tier": "fast",
+      "files": {
+        "create": [
+          "scripts/export-abi.ts",
+          "src/lib/abi.generated.ts"
+        ],
+        "modify": [],
+        "test": [
+          "test/abi.test.ts"
+        ]
+      },
+      "provides": [
+        "src/lib/abi.generated.ts: export const plumeClockAbi, export const mitigationFundAbi (as const, generated from the Foundry artifacts)"
+      ],
+      "requires": [
+        "contract PlumeClock(address feeder_, address arbiter_, address payable mitigationFund_, uint64 responseWindow_, uint256 minBond_) is PlumeReobservations: slash(bytes32 ticketId)",
+        "MitigationFund(address steward_): receive(), disburse(address payable to, uint256 amount, string memo), steward(), totalReceived(), totalDisbursed()"
+      ],
+      "gate": {
+        "run": "npm run test:abi",
+        "expect": "PASS — vitest reports `Test Files  1 passed (1)` and `Tests  3 passed (3)`"
+      },
+      "commit": "feat: export PlumeClock and MitigationFund ABIs to TypeScript",
+      "human_gate": false,
+      "allow_empty": false,
+      "status": "pending"
+    },
+    {
+      "id": "data:2.1",
+      "subsystem": "data",
+      "title": "Domain types, CO2e and IMEO feedback labels",
+      "plan": "docs/superpowers/plans/2026-10-15-plumeclock-data.md",
+      "depends_on": [
+        "contracts:1.1"
+      ],
+      "effort": "medium",
+      "model_tier": "standard",
+      "files": {
+        "create": [
+          "src/lib/types.ts",
+          "src/lib/co2e.ts",
+          "src/lib/feedback.ts"
+        ],
+        "modify": [],
+        "test": [
+          "test/domain.test.ts"
+        ]
+      },
+      "provides": [
+        "src/lib/types.ts: SourceRecord, Reobservation, FeedbackLabel, Priority, Triage, SnapshotRecord, PlumeHistoryEntry, ResponseRate, ProvenanceFile, Provenance, SnapshotFile, Notice, NoticesFile, NetworkName, DeploymentActors, DeploymentFile",
+        "src/lib/co2e.ts: co2eTonnesPerYear(rateKgPerHour: number): number, GWP100 = 29.8, GWP100_X10 = 298n, HOURS_PER_YEAR = 8760n; src/lib/feedback.ts: feedbackLabel(feedbackOperator: string, feedbackGovernment: string): FeedbackLabel, IMEO_RESPONSE_CAVEAT"
+      ],
+      "requires": [
+        "toolchain: package.json scripts (check, test:smoke, test:abi, test:e2e, verify:web, abi, pin, check:snapshot, fixtures, notices, deploy, verify:contracts, check:deployment, demo, check:demo) + foundry.toml (solc 0.8.28, src contracts/src, test contracts/test, out contracts/out)"
+      ],
+      "gate": {
+        "run": "npm run check -- test/domain.test.ts",
+        "expect": "PASS — tsc prints no errors; vitest reports `Test Files  1 passed (1)` and `Tests  5 passed (5)`"
+      },
+      "commit": "feat(data): domain types, CO2e and IMEO feedback labels",
+      "human_gate": false,
+      "allow_empty": false,
+      "status": "pending"
+    },
+    {
+      "id": "data:2.2",
+      "subsystem": "data",
+      "title": "Merkle leaves and tree compatible with Solidity",
+      "plan": "docs/superpowers/plans/2026-10-15-plumeclock-data.md",
+      "depends_on": [
+        "data:2.1"
+      ],
+      "effort": "high",
+      "model_tier": "top",
+      "files": {
+        "create": [
+          "src/lib/merkle.ts"
+        ],
+        "modify": [],
+        "test": [
+          "test/merkle.test.ts"
+        ]
+      },
+      "provides": [
+        "src/lib/merkle.ts: sourceIdFromName(name): Hex; hashSourceRecord(rec: SourceRecord): Hex; hashReobservation(obs: Reobservation): Hex; toAbiSourceRecord(rec); toAbiReobservation(obs); buildTree(leaves): MerkleTree; getProof(tree, leaf): Hex[]; verifyProof(leaf, proof, root): boolean"
+      ],
+      "requires": [
+        "src/lib/types.ts: SourceRecord, Reobservation, FeedbackLabel, Priority, Triage, SnapshotRecord, PlumeHistoryEntry, ResponseRate, ProvenanceFile, Provenance, SnapshotFile, Notice, NoticesFile, NetworkName, DeploymentActors, DeploymentFile"
+      ],
+      "gate": {
+        "run": "npm run check -- test/merkle.test.ts",
+        "expect": "PASS — tsc prints no errors; vitest reports `Test Files  1 passed (1)` and `Tests  10 passed (10)`"
+      },
+      "commit": "feat(data): Solidity-compatible Merkle leaves and tree",
+      "human_gate": false,
+      "allow_empty": false,
+      "status": "pending"
+    },
+    {
+      "id": "data:2.3",
+      "subsystem": "data",
+      "title": "Parse IMEO zips and CSVs with schema guards",
+      "plan": "docs/superpowers/plans/2026-10-15-plumeclock-data.md",
+      "depends_on": [
+        "contracts:1.1"
+      ],
+      "effort": "medium",
+      "model_tier": "standard",
+      "files": {
+        "create": [
+          "src/lib/imeo.ts",
+          "test/helpers/imeoFixtures.ts"
+        ],
+        "modify": [],
+        "test": [
+          "test/imeo.test.ts"
+        ]
+      },
+      "provides": [
+        "src/lib/imeo.ts: parsePlumesZip(zip: Uint8Array): { sources: SourceRow[]; plumes: PlumeRow[] }; parseResponseRateZip(zip: Uint8Array): { csvPath: string; rows: ResponseRateRow[] }; PLUMES_ZIP_URL, RESPONSE_RATE_ZIP_URL, PLUMES_ZIP_NAME, RESPONSE_RATE_ZIP_NAME, SOURCE_COLUMNS",
+        "test/helpers/imeoFixtures.ts: source(overrides), plumesZip(sources, plumes), responseRateZip(csv?), scenarioExport(), sourcesCsv(rows), plumesCsv(specs)"
+      ],
+      "requires": [
+        "toolchain: package.json scripts (check, test:smoke, test:abi, test:e2e, verify:web, abi, pin, check:snapshot, fixtures, notices, deploy, verify:contracts, check:deployment, demo, check:demo) + foundry.toml (solc 0.8.28, src contracts/src, test contracts/test, out contracts/out)"
+      ],
+      "gate": {
+        "run": "npm run check -- test/imeo.test.ts",
+        "expect": "PASS — tsc prints no errors; vitest reports `Test Files  1 passed (1)` and `Tests  9 passed (9)`"
+      },
+      "commit": "feat(data): parse IMEO zips with schema guards",
+      "human_gate": false,
+      "allow_empty": false,
+      "status": "pending"
+    },
+    {
+      "id": "data:2.4",
+      "subsystem": "data",
+      "title": "Source records, universe and locked selection rules",
+      "plan": "docs/superpowers/plans/2026-10-15-plumeclock-data.md",
+      "depends_on": [
+        "data:2.2",
+        "data:2.3"
+      ],
+      "effort": "medium",
+      "model_tier": "standard",
+      "files": {
+        "create": [
+          "src/lib/records.ts"
+        ],
+        "modify": [],
+        "test": [
+          "test/records.test.ts"
+        ]
+      },
+      "provides": [
+        "src/lib/records.ts: NamedRecord; buildUniverse(sources, plumes): NamedRecord[]; selectRecent(universe, referenceDate, days = 365); selectScenario(recent): { operatorA; operatorB }; selectTicketSet(recent, scenario, topN = 40): string[]; parseImeoTimestamp; toE5; referenceDateFromLastModified"
+      ],
+      "requires": [
+        "src/lib/merkle.ts: sourceIdFromName(name): Hex; hashSourceRecord(rec: SourceRecord): Hex; hashReobservation(obs: Reobservation): Hex; toAbiSourceRecord(rec); toAbiReobservation(obs); buildTree(leaves): MerkleTree; getProof(tree, leaf): Hex[]; verifyProof(leaf, proof, root): boolean",
+        "src/lib/imeo.ts: parsePlumesZip(zip: Uint8Array): { sources: SourceRow[]; plumes: PlumeRow[] }; parseResponseRateZip(zip: Uint8Array): { csvPath: string; rows: ResponseRateRow[] }; PLUMES_ZIP_URL, RESPONSE_RATE_ZIP_URL, PLUMES_ZIP_NAME, RESPONSE_RATE_ZIP_NAME, SOURCE_COLUMNS",
+        "test/helpers/imeoFixtures.ts: source(overrides), plumesZip(sources, plumes), responseRateZip(csv?), scenarioExport(), sourcesCsv(rows), plumesCsv(specs)",
+        "src/lib/types.ts: SourceRecord, Reobservation, FeedbackLabel, Priority, Triage, SnapshotRecord, PlumeHistoryEntry, ResponseRate, ProvenanceFile, Provenance, SnapshotFile, Notice, NoticesFile, NetworkName, DeploymentActors, DeploymentFile"
+      ],
+      "gate": {
+        "run": "npm run check -- test/records.test.ts",
+        "expect": "PASS — tsc prints no errors; vitest reports `Test Files  1 passed (1)` and `Tests  11 passed (11)`"
+      },
+      "commit": "feat(data): source records and locked selection rules",
+      "human_gate": false,
+      "allow_empty": false,
+      "status": "pending"
+    },
+    {
+      "id": "data:2.5",
+      "subsystem": "data",
+      "title": "Deterministic triage score",
+      "plan": "docs/superpowers/plans/2026-10-15-plumeclock-data.md",
+      "depends_on": [
+        "data:2.1"
+      ],
+      "effort": "low",
+      "model_tier": "standard",
+      "files": {
+        "create": [
+          "src/lib/triage.ts"
+        ],
+        "modify": [],
+        "test": [
+          "test/triage.test.ts"
+        ]
+      },
+      "provides": [
+        "src/lib/triage.ts: triage(co2eTonnesPerYear: number, persistency: string, label: FeedbackLabel): Triage"
+      ],
+      "requires": [
+        "src/lib/types.ts: SourceRecord, Reobservation, FeedbackLabel, Priority, Triage, SnapshotRecord, PlumeHistoryEntry, ResponseRate, ProvenanceFile, Provenance, SnapshotFile, Notice, NoticesFile, NetworkName, DeploymentActors, DeploymentFile"
+      ],
+      "gate": {
+        "run": "npm run check -- test/triage.test.ts",
+        "expect": "PASS — tsc prints no errors; vitest reports `Test Files  1 passed (1)` and `Tests  4 passed (4)`"
+      },
+      "commit": "feat(data): deterministic triage score",
+      "human_gate": false,
+      "allow_empty": false,
+      "status": "pending"
+    },
+    {
+      "id": "data:2.6",
+      "subsystem": "data",
+      "title": "Snapshot pinning library and scripts",
+      "plan": "docs/superpowers/plans/2026-10-15-plumeclock-data.md",
+      "depends_on": [
+        "data:2.1",
+        "data:2.3"
+      ],
+      "effort": "medium",
+      "model_tier": "standard",
+      "files": {
+        "create": [
+          "src/lib/pin.ts",
+          "scripts/pin-snapshot.ts",
+          "scripts/check-snapshot.ts"
+        ],
+        "modify": [],
+        "test": [
+          "test/pin.test.ts"
+        ]
+      },
+      "provides": [
+        "src/lib/pin.ts: PIN_USER_AGENT, SNAPSHOT_DIR = 'data/imeo', ATTRIBUTION, PIN_TARGETS, downloadPinned(target, fetcher), buildProvenance(files, fetchedAt), renderNotice(provenance), sha256Hex(bytes), checkSnapshotDir(dir); npm run pin; npm run check:snapshot"
+      ],
+      "requires": [
+        "src/lib/imeo.ts: parsePlumesZip(zip: Uint8Array): { sources: SourceRow[]; plumes: PlumeRow[] }; parseResponseRateZip(zip: Uint8Array): { csvPath: string; rows: ResponseRateRow[] }; PLUMES_ZIP_URL, RESPONSE_RATE_ZIP_URL, PLUMES_ZIP_NAME, RESPONSE_RATE_ZIP_NAME, SOURCE_COLUMNS",
+        "test/helpers/imeoFixtures.ts: source(overrides), plumesZip(sources, plumes), responseRateZip(csv?), scenarioExport(), sourcesCsv(rows), plumesCsv(specs)",
+        "src/lib/types.ts: SourceRecord, Reobservation, FeedbackLabel, Priority, Triage, SnapshotRecord, PlumeHistoryEntry, ResponseRate, ProvenanceFile, Provenance, SnapshotFile, Notice, NoticesFile, NetworkName, DeploymentActors, DeploymentFile"
+      ],
+      "gate": {
+        "run": "npm run check -- test/pin.test.ts",
+        "expect": "PASS — tsc prints no errors; vitest reports `Test Files  1 passed (1)` and `Tests  7 passed (7)`"
+      },
+      "commit": "feat(data): IMEO snapshot pinning with provenance",
+      "human_gate": false,
+      "allow_empty": false,
+      "status": "pending"
+    },
+    {
+      "id": "data:2.7",
+      "subsystem": "data",
+      "title": "Pin today's IMEO snapshot (download)",
+      "plan": "docs/superpowers/plans/2026-10-15-plumeclock-data.md",
+      "depends_on": [
+        "data:2.6"
+      ],
+      "effort": "low",
+      "model_tier": "standard",
+      "files": {
+        "create": [
+          "data/imeo/unep_methanedata_detected_plumes_csv.zip",
+          "data/imeo/unep_methanedata_responserate.zip",
+          "data/imeo/provenance.json",
+          "data/imeo/NOTICE.md"
+        ],
+        "modify": [],
+        "test": []
+      },
+      "provides": [
+        "data/imeo/: unep_methanedata_detected_plumes_csv.zip, unep_methanedata_responserate.zip, provenance.json, NOTICE.md (pinned IMEO snapshot)"
+      ],
+      "requires": [
+        "src/lib/pin.ts: PIN_USER_AGENT, SNAPSHOT_DIR = 'data/imeo', ATTRIBUTION, PIN_TARGETS, downloadPinned(target, fetcher), buildProvenance(files, fetchedAt), renderNotice(provenance), sha256Hex(bytes), checkSnapshotDir(dir); npm run pin; npm run check:snapshot"
+      ],
+      "gate": {
+        "run": "npm run check:snapshot",
+        "expect": "PASS — one line starting `SNAPSHOT OK sources=` (about 4,200 sources, 30,000 plumes, 34 response-rate rows on 2026-10-15)"
+      },
+      "commit": "data: pin UNEP IMEO snapshot with provenance",
+      "human_gate": false,
+      "allow_empty": false,
+      "status": "pending"
+    },
+    {
+      "id": "data:2.8",
+      "subsystem": "data",
+      "title": "Build the snapshot fixture (records, root, proofs, overlay)",
+      "plan": "docs/superpowers/plans/2026-10-15-plumeclock-data.md",
+      "depends_on": [
+        "data:2.4",
+        "data:2.5",
+        "data:2.6"
+      ],
+      "effort": "medium",
+      "model_tier": "standard",
+      "files": {
+        "create": [
+          "src/lib/fixtures.ts",
+          "scripts/build-fixtures.ts"
+        ],
+        "modify": [],
+        "test": [
+          "test/fixtures.test.ts"
+        ]
+      },
+      "provides": [
+        "src/lib/fixtures.ts: buildSnapshotFile({ provenance, plumesZip, responseRateZip, generatedAt }): SnapshotFile; npm run fixtures"
+      ],
+      "requires": [
+        "src/lib/records.ts: NamedRecord; buildUniverse(sources, plumes): NamedRecord[]; selectRecent(universe, referenceDate, days = 365); selectScenario(recent): { operatorA; operatorB }; selectTicketSet(recent, scenario, topN = 40): string[]; parseImeoTimestamp; toE5; referenceDateFromLastModified",
+        "src/lib/triage.ts: triage(co2eTonnesPerYear: number, persistency: string, label: FeedbackLabel): Triage",
+        "src/lib/merkle.ts: sourceIdFromName(name): Hex; hashSourceRecord(rec: SourceRecord): Hex; hashReobservation(obs: Reobservation): Hex; toAbiSourceRecord(rec); toAbiReobservation(obs); buildTree(leaves): MerkleTree; getProof(tree, leaf): Hex[]; verifyProof(leaf, proof, root): boolean",
+        "src/lib/imeo.ts: parsePlumesZip(zip: Uint8Array): { sources: SourceRow[]; plumes: PlumeRow[] }; parseResponseRateZip(zip: Uint8Array): { csvPath: string; rows: ResponseRateRow[] }; PLUMES_ZIP_URL, RESPONSE_RATE_ZIP_URL, PLUMES_ZIP_NAME, RESPONSE_RATE_ZIP_NAME, SOURCE_COLUMNS",
+        "test/helpers/imeoFixtures.ts: source(overrides), plumesZip(sources, plumes), responseRateZip(csv?), scenarioExport(), sourcesCsv(rows), plumesCsv(specs)",
+        "src/lib/pin.ts: PIN_USER_AGENT, SNAPSHOT_DIR = 'data/imeo', ATTRIBUTION, PIN_TARGETS, downloadPinned(target, fetcher), buildProvenance(files, fetchedAt), renderNotice(provenance), sha256Hex(bytes), checkSnapshotDir(dir); npm run pin; npm run check:snapshot",
+        "src/lib/types.ts: SourceRecord, Reobservation, FeedbackLabel, Priority, Triage, SnapshotRecord, PlumeHistoryEntry, ResponseRate, ProvenanceFile, Provenance, SnapshotFile, Notice, NoticesFile, NetworkName, DeploymentActors, DeploymentFile",
+        "src/lib/co2e.ts: co2eTonnesPerYear(rateKgPerHour: number): number, GWP100 = 29.8, GWP100_X10 = 298n, HOURS_PER_YEAR = 8760n; src/lib/feedback.ts: feedbackLabel(feedbackOperator: string, feedbackGovernment: string): FeedbackLabel, IMEO_RESPONSE_CAVEAT"
+      ],
+      "gate": {
+        "run": "npm run check -- test/fixtures.test.ts",
+        "expect": "PASS — tsc prints no errors; vitest reports `Test Files  1 passed (1)` and `Tests  6 passed (6)`"
+      },
+      "commit": "feat(data): snapshot fixture builder",
+      "human_gate": false,
+      "allow_empty": false,
+      "status": "pending"
+    },
+    {
+      "id": "data:2.9",
+      "subsystem": "data",
+      "title": "Generate and commit public/data/snapshot.json",
+      "plan": "docs/superpowers/plans/2026-10-15-plumeclock-data.md",
+      "depends_on": [
+        "data:2.7",
+        "data:2.8"
+      ],
+      "effort": "low",
+      "model_tier": "standard",
+      "files": {
+        "create": [
+          "public/data/snapshot.json"
+        ],
+        "modify": [],
+        "test": [
+          "test/snapshot-data.test.ts"
+        ]
+      },
+      "provides": [
+        "public/data/snapshot.json (schema plumeclock.snapshot.v1, built from the pinned snapshot)"
+      ],
+      "requires": [
+        "data/imeo/: unep_methanedata_detected_plumes_csv.zip, unep_methanedata_responserate.zip, provenance.json, NOTICE.md (pinned IMEO snapshot)",
+        "src/lib/fixtures.ts: buildSnapshotFile({ provenance, plumesZip, responseRateZip, generatedAt }): SnapshotFile; npm run fixtures"
+      ],
+      "gate": {
+        "run": "npm run check -- test/snapshot-data.test.ts",
+        "expect": "PASS — tsc prints no errors; vitest reports `Test Files  1 passed (1)` and `Tests  6 passed (6)`"
+      },
+      "commit": "data: build snapshot.json (records, Merkle root, proofs)",
+      "human_gate": false,
+      "allow_empty": false,
+      "status": "pending"
+    },
+    {
+      "id": "data:2.10",
+      "subsystem": "data",
+      "title": "AI plume analyst notices with template fallback",
+      "plan": "docs/superpowers/plans/2026-10-15-plumeclock-data.md",
+      "depends_on": [
+        "data:2.1"
+      ],
+      "effort": "medium",
+      "model_tier": "standard",
+      "files": {
+        "create": [
+          "src/lib/notices.ts",
+          "scripts/notices.ts"
+        ],
+        "modify": [],
+        "test": [
+          "test/notices.test.ts"
+        ]
+      },
+      "provides": [
+        "src/lib/notices.ts: templateNotice(rec), isValidNotice(text, rec), buildNotices(records, generatedAt, drafter?, model?): Promise<NoticesFile>, makeClaudeDrafter(apiKey, model), DEFAULT_LLM_MODEL = 'claude-opus-5-5', TEMPLATE_GENERATOR = 'template'; npm run notices [-- --template]"
+      ],
+      "requires": [
+        "src/lib/types.ts: SourceRecord, Reobservation, FeedbackLabel, Priority, Triage, SnapshotRecord, PlumeHistoryEntry, ResponseRate, ProvenanceFile, Provenance, SnapshotFile, Notice, NoticesFile, NetworkName, DeploymentActors, DeploymentFile",
+        "src/lib/co2e.ts: co2eTonnesPerYear(rateKgPerHour: number): number, GWP100 = 29.8, GWP100_X10 = 298n, HOURS_PER_YEAR = 8760n; src/lib/feedback.ts: feedbackLabel(feedbackOperator: string, feedbackGovernment: string): FeedbackLabel, IMEO_RESPONSE_CAVEAT"
+      ],
+      "gate": {
+        "run": "npm run check -- test/notices.test.ts",
+        "expect": "PASS — tsc prints no errors; vitest reports `Test Files  1 passed (1)` and `Tests  7 passed (7)`"
+      },
+      "commit": "feat(data): AI plume analyst notices with template fallback",
+      "human_gate": false,
+      "allow_empty": false,
+      "status": "pending"
+    },
+    {
+      "id": "data:2.11",
+      "subsystem": "data",
+      "title": "Generate and commit template notices",
+      "plan": "docs/superpowers/plans/2026-10-15-plumeclock-data.md",
+      "depends_on": [
+        "data:2.9",
+        "data:2.10"
+      ],
+      "effort": "low",
+      "model_tier": "standard",
+      "files": {
+        "create": [
+          "public/data/notices.json"
+        ],
+        "modify": [],
+        "test": [
+          "test/notices-data.test.ts"
+        ]
+      },
+      "provides": [
+        "public/data/notices.json (schema plumeclock.notices.v1)"
+      ],
+      "requires": [
+        "public/data/snapshot.json (schema plumeclock.snapshot.v1, built from the pinned snapshot)",
+        "src/lib/notices.ts: templateNotice(rec), isValidNotice(text, rec), buildNotices(records, generatedAt, drafter?, model?): Promise<NoticesFile>, makeClaudeDrafter(apiKey, model), DEFAULT_LLM_MODEL = 'claude-opus-5-5', TEMPLATE_GENERATOR = 'template'; npm run notices [-- --template]"
+      ],
+      "gate": {
+        "run": "npm run check -- test/notices-data.test.ts",
+        "expect": "PASS — tsc prints no errors; vitest reports `Test Files  1 passed (1)` and `Tests  2 passed (2)`"
+      },
+      "commit": "data: template notices for the ticket set",
+      "human_gate": false,
+      "allow_empty": false,
+      "status": "pending"
+    },
+    {
+      "id": "data:2.12",
+      "subsystem": "data",
+      "title": "Optional: regenerate notices with Claude (human-gated, uses LLM_API_KEY)",
+      "plan": "docs/superpowers/plans/2026-10-15-plumeclock-data.md",
+      "depends_on": [
+        "data:2.11"
+      ],
+      "effort": "low",
+      "model_tier": "top",
+      "files": {
+        "create": [],
+        "modify": [
+          "public/data/notices.json"
+        ],
+        "test": []
+      },
+      "provides": [
+        "public/data/notices.json regenerated with Claude (optional, human-gated)"
+      ],
+      "requires": [
+        "public/data/notices.json (schema plumeclock.notices.v1)"
+      ],
+      "gate": {
+        "run": "npm run check -- test/notices-data.test.ts",
+        "expect": "PASS — tsc prints no errors; vitest reports `Test Files  1 passed (1)` and `Tests  2 passed (2)`"
+      },
+      "commit": "data: Claude-drafted notices for the ticket set",
+      "human_gate": true,
+      "allow_empty": false,
+      "status": "pending",
+      "gate_profile": "secret"
+    },
+    {
+      "id": "dashboard:3.1",
+      "subsystem": "dashboard",
+      "title": "Next.js app shell and stylesheet",
+      "plan": "docs/superpowers/plans/2026-10-15-plumeclock-dashboard.md",
+      "depends_on": [
+        "contracts:1.1"
+      ],
+      "effort": "low",
+      "model_tier": "fast",
+      "files": {
+        "create": [
+          "src/app/layout.tsx",
+          "src/app/page.tsx",
+          "src/app/globals.css"
+        ],
+        "modify": [],
+        "test": []
+      },
+      "provides": [
+        "src/app/layout.tsx (imports ./globals.css), src/app/globals.css (status-* colour classes), src/app/page.tsx placeholder"
+      ],
+      "requires": [
+        "toolchain: package.json scripts (check, test:smoke, test:abi, test:e2e, verify:web, abi, pin, check:snapshot, fixtures, notices, deploy, verify:contracts, check:deployment, demo, check:demo) + foundry.toml (solc 0.8.28, src contracts/src, test contracts/test, out contracts/out)"
+      ],
+      "gate": {
+        "run": "npm run build",
+        "expect": "PASS — ends with `○  (Static)  prerendered as static content`"
+      },
+      "commit": "feat(web): Next.js static-export shell and stylesheet",
+      "human_gate": false,
+      "allow_empty": false,
+      "status": "pending"
+    },
+    {
+      "id": "dashboard:3.2",
+      "subsystem": "dashboard",
+      "title": "Chain config, display formatting and status mapping",
+      "plan": "docs/superpowers/plans/2026-10-15-plumeclock-dashboard.md",
+      "depends_on": [
+        "data:2.1"
+      ],
+      "effort": "low",
+      "model_tier": "standard",
+      "files": {
+        "create": [
+          "src/lib/chain.ts",
+          "src/lib/format.ts",
+          "src/lib/status.ts"
+        ],
+        "modify": [],
+        "test": [
+          "test/ui-lib.test.ts"
+        ]
+      },
+      "provides": [
+        "src/lib/chain.ts: networkConfig(name): NetworkConfig, txUrl(explorerUrl, hash), addressUrl; src/lib/format.ts: displayRemainingSeconds, formatClock, warpLabel, formatTonnes, formatRate, formatDate, shortAddress, decodeSourceId, formatEth; src/lib/status.ts: DisplayStatus, STATUS_LABELS, displayStatus(t, nowSeconds)"
+      ],
+      "requires": [
+        "src/lib/types.ts: SourceRecord, Reobservation, FeedbackLabel, Priority, Triage, SnapshotRecord, PlumeHistoryEntry, ResponseRate, ProvenanceFile, Provenance, SnapshotFile, Notice, NoticesFile, NetworkName, DeploymentActors, DeploymentFile"
+      ],
+      "gate": {
+        "run": "npm run check -- test/ui-lib.test.ts",
+        "expect": "PASS — tsc prints no errors; vitest reports `Test Files  1 passed (1)` and `Tests  7 passed (7)`"
+      },
+      "commit": "feat(web): chain config, formatting and status mapping",
+      "human_gate": false,
+      "allow_empty": false,
+      "status": "pending"
+    },
+    {
+      "id": "dashboard:3.3",
+      "subsystem": "dashboard",
+      "title": "Read model: tickets, bonds, transitions and record verification",
+      "plan": "docs/superpowers/plans/2026-10-15-plumeclock-dashboard.md",
+      "depends_on": [
+        "contracts:1.10",
+        "data:2.2",
+        "dashboard:3.2"
+      ],
+      "effort": "medium",
+      "model_tier": "standard",
+      "files": {
+        "create": [
+          "src/lib/readModel.ts"
+        ],
+        "modify": [],
+        "test": [
+          "test/readModel.test.ts"
+        ]
+      },
+      "provides": [
+        "src/lib/readModel.ts: TicketView, RawTicket, ReadClient, toTicketView, makeReadClient(chain, rpcUrl), fetchTickets(client, address), fetchBondAmount, fetchResponseWindow, fetchRootKind, fetchTransitions(client, address, ticketId): TransitionEvent[], verifyRecord(record, proof, root, rootKindOnChain): Verification, recomputeRoot"
+      ],
+      "requires": [
+        "src/lib/abi.generated.ts: export const plumeClockAbi, export const mitigationFundAbi (as const, generated from the Foundry artifacts)",
+        "src/lib/merkle.ts: sourceIdFromName(name): Hex; hashSourceRecord(rec: SourceRecord): Hex; hashReobservation(obs: Reobservation): Hex; toAbiSourceRecord(rec); toAbiReobservation(obs); buildTree(leaves): MerkleTree; getProof(tree, leaf): Hex[]; verifyProof(leaf, proof, root): boolean",
+        "src/lib/chain.ts: networkConfig(name): NetworkConfig, txUrl(explorerUrl, hash), addressUrl; src/lib/format.ts: displayRemainingSeconds, formatClock, warpLabel, formatTonnes, formatRate, formatDate, shortAddress, decodeSourceId, formatEth; src/lib/status.ts: DisplayStatus, STATUS_LABELS, displayStatus(t, nowSeconds)",
+        "src/lib/types.ts: SourceRecord, Reobservation, FeedbackLabel, Priority, Triage, SnapshotRecord, PlumeHistoryEntry, ResponseRate, ProvenanceFile, Provenance, SnapshotFile, Notice, NoticesFile, NetworkName, DeploymentActors, DeploymentFile"
+      ],
+      "gate": {
+        "run": "npm run check -- test/readModel.test.ts",
+        "expect": "PASS — tsc prints no errors; vitest reports `Test Files  1 passed (1)` and `Tests  5 passed (5)`"
+      },
+      "commit": "feat(web): chain read model and record verification",
+      "human_gate": false,
+      "allow_empty": false,
+      "status": "pending"
+    },
+    {
+      "id": "dashboard:3.4",
+      "subsystem": "dashboard",
+      "title": "World map, status badge and ticket list components",
+      "plan": "docs/superpowers/plans/2026-10-15-plumeclock-dashboard.md",
+      "depends_on": [
+        "dashboard:3.2"
+      ],
+      "effort": "medium",
+      "model_tier": "standard",
+      "files": {
+        "create": [
+          "src/components/WorldMap.tsx",
+          "src/components/StatusBadge.tsx",
+          "src/components/TicketList.tsx"
+        ],
+        "modify": [],
+        "test": [
+          "test/map-list.test.tsx"
+        ]
+      },
+      "provides": [
+        "src/components/WorldMap.tsx: WorldMap(props), MapDot, MapTicket, MapBubble, markerRadius, rateColor; src/components/StatusBadge.tsx: StatusBadge({ status }); src/components/TicketList.tsx: TicketList({ rows, selected, onSelect }), TicketRow, sortRows"
+      ],
+      "requires": [
+        "src/lib/chain.ts: networkConfig(name): NetworkConfig, txUrl(explorerUrl, hash), addressUrl; src/lib/format.ts: displayRemainingSeconds, formatClock, warpLabel, formatTonnes, formatRate, formatDate, shortAddress, decodeSourceId, formatEth; src/lib/status.ts: DisplayStatus, STATUS_LABELS, displayStatus(t, nowSeconds)",
+        "src/lib/types.ts: SourceRecord, Reobservation, FeedbackLabel, Priority, Triage, SnapshotRecord, PlumeHistoryEntry, ResponseRate, ProvenanceFile, Provenance, SnapshotFile, Notice, NoticesFile, NetworkName, DeploymentActors, DeploymentFile"
+      ],
+      "gate": {
+        "run": "npm run check -- test/map-list.test.tsx",
+        "expect": "PASS — tsc prints no errors; vitest reports `Test Files  1 passed (1)` and `Tests  5 passed (5)`"
+      },
+      "commit": "feat(web): world map, status badge and ticket list",
+      "human_gate": false,
+      "allow_empty": false,
+      "status": "pending"
+    },
+    {
+      "id": "dashboard:3.5",
+      "subsystem": "dashboard",
+      "title": "Ticket panel",
+      "plan": "docs/superpowers/plans/2026-10-15-plumeclock-dashboard.md",
+      "depends_on": [
+        "dashboard:3.3",
+        "dashboard:3.4"
+      ],
+      "effort": "medium",
+      "model_tier": "standard",
+      "files": {
+        "create": [
+          "src/components/TicketPanel.tsx",
+          "test/helpers/viewFixtures.ts"
+        ],
+        "modify": [],
+        "test": [
+          "test/panel.test.tsx"
+        ]
+      },
+      "provides": [
+        "src/components/TicketPanel.tsx: TicketPanel(props: TicketPanelProps); test/helpers/viewFixtures.ts: SNAPSHOT, NOTICES, DEPLOYMENT, OPERATOR_A, OPERATOR_B, ZERO, ticket(sourceName, overrides)"
+      ],
+      "requires": [
+        "src/lib/readModel.ts: TicketView, RawTicket, ReadClient, toTicketView, makeReadClient(chain, rpcUrl), fetchTickets(client, address), fetchBondAmount, fetchResponseWindow, fetchRootKind, fetchTransitions(client, address, ticketId): TransitionEvent[], verifyRecord(record, proof, root, rootKindOnChain): Verification, recomputeRoot",
+        "src/components/WorldMap.tsx: WorldMap(props), MapDot, MapTicket, MapBubble, markerRadius, rateColor; src/components/StatusBadge.tsx: StatusBadge({ status }); src/components/TicketList.tsx: TicketList({ rows, selected, onSelect }), TicketRow, sortRows",
+        "src/lib/chain.ts: networkConfig(name): NetworkConfig, txUrl(explorerUrl, hash), addressUrl; src/lib/format.ts: displayRemainingSeconds, formatClock, warpLabel, formatTonnes, formatRate, formatDate, shortAddress, decodeSourceId, formatEth; src/lib/status.ts: DisplayStatus, STATUS_LABELS, displayStatus(t, nowSeconds)",
+        "src/lib/types.ts: SourceRecord, Reobservation, FeedbackLabel, Priority, Triage, SnapshotRecord, PlumeHistoryEntry, ResponseRate, ProvenanceFile, Provenance, SnapshotFile, Notice, NoticesFile, NetworkName, DeploymentActors, DeploymentFile",
+        "src/lib/co2e.ts: co2eTonnesPerYear(rateKgPerHour: number): number, GWP100 = 29.8, GWP100_X10 = 298n, HOURS_PER_YEAR = 8760n; src/lib/feedback.ts: feedbackLabel(feedbackOperator: string, feedbackGovernment: string): FeedbackLabel, IMEO_RESPONSE_CAVEAT"
+      ],
+      "gate": {
+        "run": "npm run check -- test/panel.test.tsx",
+        "expect": "PASS — tsc prints no errors; vitest reports `Test Files  1 passed (1)` and `Tests  1 passed (1)`"
+      },
+      "commit": "feat(web): ticket panel",
+      "human_gate": false,
+      "allow_empty": false,
+      "status": "pending"
+    },
+    {
+      "id": "dashboard:3.6",
+      "subsystem": "dashboard",
+      "title": "View model and dashboard view",
+      "plan": "docs/superpowers/plans/2026-10-15-plumeclock-dashboard.md",
+      "depends_on": [
+        "dashboard:3.5"
+      ],
+      "effort": "medium",
+      "model_tier": "standard",
+      "files": {
+        "create": [
+          "src/lib/view.ts",
+          "src/components/DashboardView.tsx"
+        ],
+        "modify": [],
+        "test": [
+          "test/view.test.ts",
+          "test/dashboard-view.test.tsx"
+        ]
+      },
+      "provides": [
+        "src/lib/view.ts: buildViewModel(snapshot, tickets, responseWindowSeconds, nowSeconds): ViewModel, latestTicketBySource, clockFor, operatorLabel; src/components/DashboardView.tsx: DashboardView(props), Layers"
+      ],
+      "requires": [
+        "src/components/WorldMap.tsx: WorldMap(props), MapDot, MapTicket, MapBubble, markerRadius, rateColor; src/components/StatusBadge.tsx: StatusBadge({ status }); src/components/TicketList.tsx: TicketList({ rows, selected, onSelect }), TicketRow, sortRows",
+        "src/components/TicketPanel.tsx: TicketPanel(props: TicketPanelProps); test/helpers/viewFixtures.ts: SNAPSHOT, NOTICES, DEPLOYMENT, OPERATOR_A, OPERATOR_B, ZERO, ticket(sourceName, overrides)",
+        "src/lib/readModel.ts: TicketView, RawTicket, ReadClient, toTicketView, makeReadClient(chain, rpcUrl), fetchTickets(client, address), fetchBondAmount, fetchResponseWindow, fetchRootKind, fetchTransitions(client, address, ticketId): TransitionEvent[], verifyRecord(record, proof, root, rootKindOnChain): Verification, recomputeRoot",
+        "src/lib/chain.ts: networkConfig(name): NetworkConfig, txUrl(explorerUrl, hash), addressUrl; src/lib/format.ts: displayRemainingSeconds, formatClock, warpLabel, formatTonnes, formatRate, formatDate, shortAddress, decodeSourceId, formatEth; src/lib/status.ts: DisplayStatus, STATUS_LABELS, displayStatus(t, nowSeconds)"
+      ],
+      "gate": {
+        "run": "npm run check -- test/view.test.ts test/dashboard-view.test.tsx",
+        "expect": "PASS — tsc prints no errors; vitest reports `Test Files  2 passed (2)` and `Tests  9 passed (9)`"
+      },
+      "commit": "feat(web): view model and dashboard view",
+      "human_gate": false,
+      "allow_empty": false,
+      "status": "pending"
+    },
+    {
+      "id": "dashboard:3.7",
+      "subsystem": "dashboard",
+      "title": "Live dashboard: data loading, polling, and the page",
+      "plan": "docs/superpowers/plans/2026-10-15-plumeclock-dashboard.md",
+      "depends_on": [
+        "dashboard:3.1",
+        "dashboard:3.6"
+      ],
+      "effort": "medium",
+      "model_tier": "standard",
+      "files": {
+        "create": [
+          "src/components/Dashboard.tsx"
+        ],
+        "modify": [
+          "src/app/page.tsx"
+        ],
+        "test": [
+          "test/dashboard.test.tsx"
+        ]
+      },
+      "provides": [
+        "src/components/Dashboard.tsx: Dashboard(), resolveNetwork(search); src/app/page.tsx renders <Dashboard />"
+      ],
+      "requires": [
+        "src/lib/view.ts: buildViewModel(snapshot, tickets, responseWindowSeconds, nowSeconds): ViewModel, latestTicketBySource, clockFor, operatorLabel; src/components/DashboardView.tsx: DashboardView(props), Layers",
+        "src/lib/readModel.ts: TicketView, RawTicket, ReadClient, toTicketView, makeReadClient(chain, rpcUrl), fetchTickets(client, address), fetchBondAmount, fetchResponseWindow, fetchRootKind, fetchTransitions(client, address, ticketId): TransitionEvent[], verifyRecord(record, proof, root, rootKindOnChain): Verification, recomputeRoot",
+        "src/lib/chain.ts: networkConfig(name): NetworkConfig, txUrl(explorerUrl, hash), addressUrl; src/lib/format.ts: displayRemainingSeconds, formatClock, warpLabel, formatTonnes, formatRate, formatDate, shortAddress, decodeSourceId, formatEth; src/lib/status.ts: DisplayStatus, STATUS_LABELS, displayStatus(t, nowSeconds)",
+        "src/app/layout.tsx (imports ./globals.css), src/app/globals.css (status-* colour classes), src/app/page.tsx placeholder"
+      ],
+      "gate": {
+        "run": "npm run verify:web",
+        "expect": "PASS — vitest `Tests  3 passed (3)`, then next build ends with `○  (Static)  prerendered as static content`"
+      },
+      "commit": "feat(web): live dashboard page",
+      "human_gate": false,
+      "allow_empty": false,
+      "status": "pending"
+    },
+    {
+      "id": "demo:4.1",
+      "subsystem": "demo",
+      "title": "EIP-712 typed data and actor wallets",
+      "plan": "docs/superpowers/plans/2026-10-15-plumeclock-demo.md",
+      "depends_on": [
+        "data:2.1"
+      ],
+      "effort": "high",
+      "model_tier": "top",
+      "files": {
+        "create": [
+          "src/lib/eip712.ts",
+          "src/lib/actors.ts"
+        ],
+        "modify": [],
+        "test": [
+          "test/eip712.test.ts"
+        ]
+      },
+      "provides": [
+        "src/lib/eip712.ts: plumeClockDomain(chainId, verifyingContract), attestationTypedData(chainId, verifyingContract, message), disputeTypedData(chainId, verifyingContract, message); src/lib/actors.ts: Wallet, ActorWallets { deployer, feeder, operatorA, operatorB }, KEY_ENV_VARS, anvilActors(chain, rpcUrl), envActors(env, chain, rpcUrl)"
+      ],
+      "requires": [
+        "src/lib/types.ts: SourceRecord, Reobservation, FeedbackLabel, Priority, Triage, SnapshotRecord, PlumeHistoryEntry, ResponseRate, ProvenanceFile, Provenance, SnapshotFile, Notice, NoticesFile, NetworkName, DeploymentActors, DeploymentFile",
+        "toolchain: package.json scripts (check, test:smoke, test:abi, test:e2e, verify:web, abi, pin, check:snapshot, fixtures, notices, deploy, verify:contracts, check:deployment, demo, check:demo) + foundry.toml (solc 0.8.28, src contracts/src, test contracts/test, out contracts/out)"
+      ],
+      "gate": {
+        "run": "npm run check -- test/eip712.test.ts",
+        "expect": "PASS — tsc prints no errors; vitest reports `Test Files  1 passed (1)` and `Tests  6 passed (6)`"
+      },
+      "commit": "feat(demo): EIP-712 typed data and actor wallets",
+      "human_gate": false,
+      "allow_empty": false,
+      "status": "pending"
+    },
+    {
+      "id": "demo:4.2",
+      "subsystem": "demo",
+      "title": "Deploy library, waiters, funding and deployment check (anvil e2e)",
+      "plan": "docs/superpowers/plans/2026-10-15-plumeclock-demo.md",
+      "depends_on": [
+        "contracts:1.10",
+        "dashboard:3.2",
+        "demo:4.1"
+      ],
+      "effort": "high",
+      "model_tier": "top",
+      "files": {
+        "create": [
+          "src/lib/deploy.ts",
+          "src/lib/waiters.ts",
+          "src/lib/funding.ts",
+          "src/lib/checkDeployment.ts",
+          "scripts/deploy.ts",
+          "scripts/check-deployment.ts"
+        ],
+        "modify": [],
+        "test": [
+          "test/e2e/deploy.e2e.test.ts"
+        ]
+      },
+      "provides": [
+        "src/lib/deploy.ts: deployPlumeClock(opts): Promise<DeploymentFile>, writeDeployment(file), readDeployment(network), readBytecode(contract); src/lib/waiters.ts: anvilWaiter(chain, rpcUrl), pollingWaiter(publicClient, log); src/lib/funding.ts: fundActors(publicClient, actors, bondWei, log); src/lib/checkDeployment.ts: checkDeployment(publicClient, deployment); npm run deploy; npm run check:deployment"
+      ],
+      "requires": [
+        "src/lib/abi.generated.ts: export const plumeClockAbi, export const mitigationFundAbi (as const, generated from the Foundry artifacts)",
+        "src/lib/eip712.ts: plumeClockDomain(chainId, verifyingContract), attestationTypedData(chainId, verifyingContract, message), disputeTypedData(chainId, verifyingContract, message); src/lib/actors.ts: Wallet, ActorWallets { deployer, feeder, operatorA, operatorB }, KEY_ENV_VARS, anvilActors(chain, rpcUrl), envActors(env, chain, rpcUrl)",
+        "src/lib/chain.ts: networkConfig(name): NetworkConfig, txUrl(explorerUrl, hash), addressUrl; src/lib/format.ts: displayRemainingSeconds, formatClock, warpLabel, formatTonnes, formatRate, formatDate, shortAddress, decodeSourceId, formatEth; src/lib/status.ts: DisplayStatus, STATUS_LABELS, displayStatus(t, nowSeconds)",
+        "src/lib/types.ts: SourceRecord, Reobservation, FeedbackLabel, Priority, Triage, SnapshotRecord, PlumeHistoryEntry, ResponseRate, ProvenanceFile, Provenance, SnapshotFile, Notice, NoticesFile, NetworkName, DeploymentActors, DeploymentFile"
+      ],
+      "gate": {
+        "run": "npm run test:e2e",
+        "expect": "PASS — `Test Files  1 passed (1)` and `Tests  2 passed (2)`"
+      },
+      "commit": "feat(demo): deploy library and deployment check",
+      "human_gate": false,
+      "allow_empty": false,
+      "status": "pending"
+    },
+    {
+      "id": "demo:4.3",
+      "subsystem": "demo",
+      "title": "Blockscout verification command builder",
+      "plan": "docs/superpowers/plans/2026-10-15-plumeclock-demo.md",
+      "depends_on": [
+        "demo:4.2"
+      ],
+      "effort": "low",
+      "model_tier": "standard",
+      "files": {
+        "create": [
+          "src/lib/verifyCommands.ts",
+          "scripts/verify-contracts.ts"
+        ],
+        "modify": [],
+        "test": [
+          "test/verifyCommands.test.ts"
+        ]
+      },
+      "provides": [
+        "src/lib/verifyCommands.ts: verifyCommands(deployment, rpcUrl): string[][]; npm run verify:contracts"
+      ],
+      "requires": [
+        "src/lib/deploy.ts: deployPlumeClock(opts): Promise<DeploymentFile>, writeDeployment(file), readDeployment(network), readBytecode(contract); src/lib/waiters.ts: anvilWaiter(chain, rpcUrl), pollingWaiter(publicClient, log); src/lib/funding.ts: fundActors(publicClient, actors, bondWei, log); src/lib/checkDeployment.ts: checkDeployment(publicClient, deployment); npm run deploy; npm run check:deployment",
+        "src/lib/types.ts: SourceRecord, Reobservation, FeedbackLabel, Priority, Triage, SnapshotRecord, PlumeHistoryEntry, ResponseRate, ProvenanceFile, Provenance, SnapshotFile, Notice, NoticesFile, NetworkName, DeploymentActors, DeploymentFile"
+      ],
+      "gate": {
+        "run": "npm run check -- test/verifyCommands.test.ts",
+        "expect": "PASS — tsc prints no errors; vitest reports `Test Files  1 passed (1)` and `Tests  2 passed (2)`"
+      },
+      "commit": "feat(demo): Blockscout verification commands",
+      "human_gate": false,
+      "allow_empty": false,
+      "status": "pending"
+    },
+    {
+      "id": "demo:4.4",
+      "subsystem": "demo",
+      "title": "Demo runner: the money shot end to end on anvil",
+      "plan": "docs/superpowers/plans/2026-10-15-plumeclock-demo.md",
+      "depends_on": [
+        "data:2.2",
+        "data:2.9",
+        "dashboard:3.3",
+        "demo:4.1",
+        "demo:4.2"
+      ],
+      "effort": "high",
+      "model_tier": "top",
+      "files": {
+        "create": [
+          "src/lib/demo.ts",
+          "src/lib/checkDemo.ts",
+          "scripts/demo.ts",
+          "scripts/check-demo.ts"
+        ],
+        "modify": [],
+        "test": [
+          "test/e2e/demo.e2e.test.ts"
+        ]
+      },
+      "provides": [
+        "src/lib/demo.ts: runDemo(ctx: DemoContext): Promise<DemoRun>, DemoRun, ticketIdFor(sourceId, lastPlumeAt), replayedObservations(records, observedAt, referenceDate); src/lib/checkDemo.ts: checkDemoRun(publicClient, deployment, run); npm run demo; npm run check:demo"
+      ],
+      "requires": [
+        "src/lib/deploy.ts: deployPlumeClock(opts): Promise<DeploymentFile>, writeDeployment(file), readDeployment(network), readBytecode(contract); src/lib/waiters.ts: anvilWaiter(chain, rpcUrl), pollingWaiter(publicClient, log); src/lib/funding.ts: fundActors(publicClient, actors, bondWei, log); src/lib/checkDeployment.ts: checkDeployment(publicClient, deployment); npm run deploy; npm run check:deployment",
+        "src/lib/eip712.ts: plumeClockDomain(chainId, verifyingContract), attestationTypedData(chainId, verifyingContract, message), disputeTypedData(chainId, verifyingContract, message); src/lib/actors.ts: Wallet, ActorWallets { deployer, feeder, operatorA, operatorB }, KEY_ENV_VARS, anvilActors(chain, rpcUrl), envActors(env, chain, rpcUrl)",
+        "src/lib/merkle.ts: sourceIdFromName(name): Hex; hashSourceRecord(rec: SourceRecord): Hex; hashReobservation(obs: Reobservation): Hex; toAbiSourceRecord(rec); toAbiReobservation(obs); buildTree(leaves): MerkleTree; getProof(tree, leaf): Hex[]; verifyProof(leaf, proof, root): boolean",
+        "src/lib/readModel.ts: TicketView, RawTicket, ReadClient, toTicketView, makeReadClient(chain, rpcUrl), fetchTickets(client, address), fetchBondAmount, fetchResponseWindow, fetchRootKind, fetchTransitions(client, address, ticketId): TransitionEvent[], verifyRecord(record, proof, root, rootKindOnChain): Verification, recomputeRoot",
+        "public/data/snapshot.json (schema plumeclock.snapshot.v1, built from the pinned snapshot)",
+        "src/lib/abi.generated.ts: export const plumeClockAbi, export const mitigationFundAbi (as const, generated from the Foundry artifacts)"
+      ],
+      "gate": {
+        "run": "npm run test:e2e",
+        "expect": "PASS — `Test Files  2 passed (2)` and `Tests  3 passed (3)`"
+      },
+      "commit": "feat(demo): money-shot demo runner with anvil e2e",
+      "human_gate": false,
+      "allow_empty": false,
+      "status": "pending"
+    },
+    {
+      "id": "demo:4.5",
+      "subsystem": "demo",
+      "title": "Deploy to Base Sepolia and verify on Blockscout (human-gated)",
+      "plan": "docs/superpowers/plans/2026-10-15-plumeclock-demo.md",
+      "depends_on": [
+        "demo:4.2",
+        "demo:4.3"
+      ],
+      "effort": "medium",
+      "model_tier": "top",
+      "files": {
+        "create": [
+          "public/deployments/base-sepolia.json"
+        ],
+        "modify": [],
+        "test": []
+      },
+      "provides": [
+        "public/deployments/base-sepolia.json (Base Sepolia PlumeClock + MitigationFund addresses)"
+      ],
+      "requires": [
+        "src/lib/deploy.ts: deployPlumeClock(opts): Promise<DeploymentFile>, writeDeployment(file), readDeployment(network), readBytecode(contract); src/lib/waiters.ts: anvilWaiter(chain, rpcUrl), pollingWaiter(publicClient, log); src/lib/funding.ts: fundActors(publicClient, actors, bondWei, log); src/lib/checkDeployment.ts: checkDeployment(publicClient, deployment); npm run deploy; npm run check:deployment",
+        "src/lib/verifyCommands.ts: verifyCommands(deployment, rpcUrl): string[][]; npm run verify:contracts"
+      ],
+      "gate": {
+        "run": "npm run check:deployment -- --network base-sepolia",
+        "expect": "PASS — `DEPLOYMENT OK base-sepolia PlumeClock 0x... (response window 180 s)`"
+      },
+      "commit": "chore(deploy): record Base Sepolia deployment",
+      "human_gate": true,
+      "allow_empty": false,
+      "status": "pending",
+      "gate_profile": "deploy"
+    },
+    {
+      "id": "demo:4.6",
+      "subsystem": "demo",
+      "title": "Run the demo on Base Sepolia (human-gated)",
+      "plan": "docs/superpowers/plans/2026-10-15-plumeclock-demo.md",
+      "depends_on": [
+        "demo:4.4",
+        "demo:4.5"
+      ],
+      "effort": "medium",
+      "model_tier": "top",
+      "files": {
+        "create": [
+          "public/deployments/base-sepolia.demo.json"
+        ],
+        "modify": [
+          "public/deployments/base-sepolia.json"
+        ],
+        "test": []
+      },
+      "provides": [
+        "public/deployments/base-sepolia.demo.json (recorded Base Sepolia demo run with tx hashes)"
+      ],
+      "requires": [
+        "src/lib/demo.ts: runDemo(ctx: DemoContext): Promise<DemoRun>, DemoRun, ticketIdFor(sourceId, lastPlumeAt), replayedObservations(records, observedAt, referenceDate); src/lib/checkDemo.ts: checkDemoRun(publicClient, deployment, run); npm run demo; npm run check:demo",
+        "public/deployments/base-sepolia.json (Base Sepolia PlumeClock + MitigationFund addresses)"
+      ],
+      "gate": {
+        "run": "npm run check:demo -- --network base-sepolia",
+        "expect": "PASS — `DEMO RUN OK <operator A source> resolved, <operator B source> slashed (0.001 ETH to the fund)`"
+      },
+      "commit": "chore(demo): record Base Sepolia demo run",
+      "human_gate": true,
+      "allow_empty": false,
+      "status": "pending",
+      "gate_profile": "wallet"
+    },
+    {
+      "id": "demo:4.7",
+      "subsystem": "demo",
+      "title": "Architecture and technical specification doc",
+      "plan": "docs/superpowers/plans/2026-10-15-plumeclock-demo.md",
+      "depends_on": [
+        "contracts:1.9",
+        "data:2.9",
+        "dashboard:3.7",
+        "demo:4.4"
+      ],
+      "effort": "medium",
+      "model_tier": "standard",
+      "files": {
+        "create": [
+          "docs/architecture.md"
+        ],
+        "modify": [],
+        "test": [
+          "test/docs-architecture.test.ts"
+        ]
+      },
+      "provides": [
+        "docs/architecture.md (Mermaid system diagram, state machine, technical specification)"
+      ],
+      "requires": [],
+      "gate": {
+        "run": "npm run check -- test/docs-architecture.test.ts",
+        "expect": "PASS — tsc prints no errors; vitest reports `Test Files  1 passed (1)` and `Tests  2 passed (2)`"
+      },
+      "commit": "docs: architecture and technical specification",
+      "human_gate": false,
+      "allow_empty": false,
+      "status": "pending"
+    },
+    {
+      "id": "demo:4.8",
+      "subsystem": "demo",
+      "title": "Security and data-integrity assessment doc",
+      "plan": "docs/superpowers/plans/2026-10-15-plumeclock-demo.md",
+      "depends_on": [
+        "contracts:1.9",
+        "demo:4.4"
+      ],
+      "effort": "medium",
+      "model_tier": "standard",
+      "files": {
+        "create": [
+          "docs/security-and-data-integrity.md"
+        ],
+        "modify": [],
+        "test": [
+          "test/docs-security.test.ts"
+        ]
+      },
+      "provides": [
+        "docs/security-and-data-integrity.md (trust assumptions, threat model, limits)"
+      ],
+      "requires": [],
+      "gate": {
+        "run": "npm run check -- test/docs-security.test.ts",
+        "expect": "PASS — tsc prints no errors; vitest reports `Test Files  1 passed (1)` and `Tests  2 passed (2)`"
+      },
+      "commit": "docs: security and data-integrity assessment",
+      "human_gate": false,
+      "allow_empty": false,
+      "status": "pending"
+    },
+    {
+      "id": "demo:4.9",
+      "subsystem": "demo",
+      "title": "Impact and adoption doc",
+      "plan": "docs/superpowers/plans/2026-10-15-plumeclock-demo.md",
+      "depends_on": [
+        "data:2.9"
+      ],
+      "effort": "medium",
+      "model_tier": "standard",
+      "files": {
+        "create": [
+          "docs/impact-and-adoption.md"
+        ],
+        "modify": [],
+        "test": [
+          "test/docs-impact.test.ts"
+        ]
+      },
+      "provides": [
+        "docs/impact-and-adoption.md (problem statement, climate impact, adoption, roadmap)"
+      ],
+      "requires": [],
+      "gate": {
+        "run": "npm run check -- test/docs-impact.test.ts",
+        "expect": "PASS — tsc prints no errors; vitest reports `Test Files  1 passed (1)` and `Tests  2 passed (2)`"
+      },
+      "commit": "docs: impact and adoption",
+      "human_gate": false,
+      "allow_empty": false,
+      "status": "pending"
+    },
+    {
+      "id": "demo:4.10",
+      "subsystem": "demo",
+      "title": "README (schema R1-web-app v1)",
+      "plan": "docs/superpowers/plans/2026-10-15-plumeclock-demo.md",
+      "depends_on": [
+        "data:2.11",
+        "dashboard:3.7",
+        "demo:4.4",
+        "demo:4.7",
+        "demo:4.8",
+        "demo:4.9"
+      ],
+      "effort": "medium",
+      "model_tier": "standard",
+      "files": {
+        "create": [],
+        "modify": [
+          "README.md"
+        ],
+        "test": []
+      },
+      "provides": [
+        "README.md (R1-web-app v1 with TBD-post-build lines)"
+      ],
+      "requires": [],
+      "gate": {
+        "run": "$want = @('# PlumeClock','## Demo','## What it does','## Quickstart','## Built at IEEE ClimateChain Global Hackathon 2026','## How it works','## Tech stack','## Run locally','## Contract addresses','## Roadmap','## License'); $stamp = '<!-- readme-schema: R1-web-app v1 -->'; $lines = Get-Content README.md -Encoding UTF8; $inFence = $false; $got = foreach ($l in $lines) { if ($l -match '^\\x60{3}') { $inFence = -not $inFence } elseif (-not $inFence -and $l -cmatch '^#{1,2} ') { $l } }; $ok = ($got.Count -eq $want.Count); if ($ok) { for ($i = 0; $i -lt $want.Count; $i++) { if ($got[$i] -cne $want[$i]) { $ok = $false } } }; if ($ok -and ($lines[0] -ceq $stamp)) { 'PASS' } else { 'FAIL' }",
+        "expect": "PASS — prints `PASS` (run in Windows PowerShell)"
+      },
+      "commit": "docs: README (R1-web-app v1)",
+      "human_gate": false,
+      "allow_empty": false,
+      "status": "pending"
+    }
+  ]
+}

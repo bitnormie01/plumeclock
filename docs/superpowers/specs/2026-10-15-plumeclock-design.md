@@ -260,8 +260,10 @@ committed, openable records.
    absent 0.1`; response factor `no response 1.0 · government 0.6 · operator 0.5 · both 0.3`;
    `score = round(100·impact·persistence·response)`. Priority is `high` at ≥ 40, `medium` at ≥ 15,
    otherwise `low`.
-2. **Notice**: a 2–3 sentence plain-language public notice per ticket. Template text by default.
-   With `LLM_API_KEY`: `client.beta.messages.create` (`claude-opus-5-5`, `max_tokens 2000`,
+2. **Notice**: a short plain-language public notice per ticket. By default it is template text,
+   four short factual sentences (the detection, the CO2e if it persists, the IMEO status, the
+   triage). With `LLM_API_KEY`, Claude drafts 2–3 sentences: `client.beta.messages.create`
+   (`claude-opus-5-5`, `max_tokens 2000`,
    effort `low`, `betas: ["server-side-fallback-2026-07-01"]`, `fallbacks: "default"`). The prompt
    carries only the record's facts and forbids speculation about operator identity or intent.
    Output must include the source id and be ≤ 600 chars, or that notice falls back to the template.
@@ -271,10 +273,10 @@ committed, openable records.
 
 ## 7. Dashboard (Next.js 15.5 static export, React 19.2, d3-geo + world-atlas land, viem)
 
-- **Layers:** world land; every U record as a faint dot coloured by IMEO feedback label; the
-  country response-rate overlay (bubble at the mean source location, colour = response rate, label
-  "Kazakhstan 20% (10/50)"); and the PlumeClock tickets as large markers coloured by status (pulsing
-  while a bonded clock runs).
+- **Layers:** world land; every U record as a faint dot in one of two colours (some feedback
+  received vs. no response); the country response-rate overlay (bubble at the mean source location,
+  colour = response rate, hover label "Kazakhstan: 20% response rate (10/50 notified sources)"); and
+  the PlumeClock tickets as large markers coloured by status (pulsing while a bonded clock runs).
 - **Ticket list** sorted by triage score. **Ticket panel**: IMEO facts verbatim + feedback label +
   the IMEO caveat ("low response rates may not necessarily signal indifference"); CO2e with "GWP100
   29.8, if it persists"; a live countdown (`remaining × 30d / responseWindow`, labelled with the
@@ -294,6 +296,7 @@ committed, openable records.
 - `scripts/deploy.ts --network anvil|base-sepolia` deploys MitigationFund + PlumeClock from the
   Foundry artifacts via viem and writes `public/deployments/<network>.json` (addresses, deployBlock,
   `responseWindowSeconds`, `minBondWei`, actors, **the public RPC URL only — never `RPC_URL`**).
+  `--check` only prints each actor's address and balance and sends nothing.
 - `scripts/demo.ts --network … [--deploy] [--fund]` runs the scenes. **Setup:** operators A and B
   pledge 0.001 ETH; the feeder posts R; the background tickets open unbonded. **Scene 1:** open
   A's and B's tickets. **Scene 2:** A signs and submits an attestation. **Scene 3:** the feeder
@@ -320,7 +323,9 @@ committed, openable records.
 
 ## 10. Testing strategy
 
-- Foundry unit tests per layer via harness contracts, plus a full-flow test and an invariant suite.
+- Foundry unit tests per layer via harness contracts, plus a full-flow test, hostile-contract tests
+  (reentrant operator and fund, an ERC-1271 wallet operator) and an invariant suite with four
+  invariants (balance == bonds, fund == slashed, live active slots, closed tickets never change).
 - vitest unit tests for every `src/lib` module with synthetic fixtures (deterministic). The
   snapshot-invariant tests run against the committed real fixtures.
 - The **cross-language vector** (one `SourceRecord` → leaf hash) is pinned in both test suites.
