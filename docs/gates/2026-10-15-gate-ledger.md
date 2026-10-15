@@ -110,7 +110,7 @@ go in chat each time: approving an OAuth/SSO grant, and accepting terms or rules
 | 2 | Faucet ≥ 0.02 Base Sepolia ETH → deployer (+ kit write-back) | B (ran as A: no human moment arose) | **preflight** | **done** 2026-10-15 |
 | 3 | Devpost sign-in + hackathon registration check | B | **preflight** | **blocked** — the user needs to sign in on Devpost |
 | 4 | Optional `LLM_API_KEY` (Anthropic) | B (billing part C) | **preflight** | pending |
-| 5 | `demo:4.5` deploy to Base Sepolia + Blockscout verify | A | closing | pending |
+| 5 | `demo:4.5` deploy to Base Sepolia + Blockscout verify | A | closing | **done** 2026-10-16 (`2870cd7`) |
 | 6 | `demo:4.6` demo run on Base Sepolia | A | closing | pending |
 | 7 | `data:2.12` Claude-drafted notices (optional) | A | closing | pending (needs gate 4) |
 | 8 | Flip `bitnormie01/plumeclock` public | A (explicit consent) | closing | pending |
@@ -318,7 +318,28 @@ Batching is fine when named ("run gates 1–2"), but never assumed.
 - **Risk:**
   - Testnet gas only. A failed deploy just re-runs.
   - The deployment file records the public RPC, never `RPC_URL`.
-- **Status:** pending.
+- **Consent:** the user's go in this session, 2026-10-16 ("Go: run gate 5 … then gate 6").
+- **Evidence (2026-10-16):** run in the canonical clone. A helper loaded the four keys from
+  `HKCU\Environment` into that one process and prepended Foundry to PATH; no key was printed.
+  1. `forge build`: "No files changed, compilation skipped".
+  2. `npm run deploy -- --network base-sepolia --check`: the four expected addresses; deployer
+     0.048 ETH, the others 0.
+  3. `npm run deploy -- --network base-sepolia`:
+     `DEPLOYED PlumeClock 0x921ab35694821aa04d716eccd5576563199e0adb MitigationFund 0x877585e6c29ab9493ea8897638248f76b51bada6 on base-sepolia (block 48161574)`.
+  4. `npm run verify:contracts`: both contracts returned "Pass - Verified", then `VERIFIED on
+     Blockscout`. Re-checked through Blockscout's `/api/v2/smart-contracts/<address>`:
+     `PlumeClock verified=True` and `MitigationFund verified=True`, both compiled with
+     v0.8.28+commit.7893614a.
+  5. Gate: `npm run check:deployment -- --network base-sepolia`:
+     `DEPLOYMENT OK base-sepolia PlumeClock 0x921ab35694821aa04d716eccd5576563199e0adb (response window 180 s)`.
+  6. Committed exactly `public/deployments/base-sepolia.json` as
+     `chore(deploy): record Base Sepolia deployment`, `2870cd7` on main. The file holds public
+     addresses and the public RPC only.
+  - The deploy cost about 0.00002 ETH. The deployer had 0.04798 ETH left before gate 6.
+  - Explorer links:
+    - https://base-sepolia.blockscout.com/address/0x921ab35694821aa04d716eccd5576563199e0adb
+    - https://base-sepolia.blockscout.com/address/0x877585e6c29ab9493ea8897638248f76b51bada6
+- **Status:** **done** 2026-10-16.
 
 ### 6 · `demo:4.6` — demo run on Base Sepolia
 
@@ -469,3 +490,4 @@ Batching is fine when named ("run gates 1–2"), but never assumed.
 | 2026-10-15 | 2 | Testnet bridge: 0.048 ETH from the deployer through Base's L1StandardBridge to Base Sepolia. | `0xf12848eb…1fcf` |
 | 2026-10-15 | 2 | Kit write-back `references/faucets/base-sepolia.md`. | `build-system@58d110a` |
 | 2026-10-15 | 3 | Devpost read-only check: not signed in (Log in / Sign up shown). No sign-in, no Join. | gate 3 evidence |
+| 2026-10-16 | 5 | Base Sepolia deploy (PlumeClock + MitigationFund), Blockscout source verification, deployment file committed. | `2870cd7` |
