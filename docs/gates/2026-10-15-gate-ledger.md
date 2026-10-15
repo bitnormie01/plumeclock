@@ -81,6 +81,27 @@ go in chat each time: approving an OAuth/SSO grant, and accepting terms or rules
   after it. Nothing in the build needs the keys, since every task that uses a key is a concierge
   gate.
 
+## Closing pass — started 2026-10-16
+
+- **Trigger:** the orchestrator reported the build green on main `b10bf4c`. It relayed the user's
+  words: "Start the gate-concierge closing pass first (deploy 4.5, demo run 4.6), then
+  demo-studio."
+  - Consent stays per gate. Gates 5 and 6 run only on the user's go in this session.
+- **Readiness for gates 5–6:** read-only, 2026-10-16. Nothing was sent or run.
+  - The canonical clone is clean at `b10bf4c`, equal to `origin/main`. The orchestrator is no
+    longer editing it.
+  - `.env` is git-ignored (`check-ignore` exit 0) and absent.
+  - `public/deployments/base-sepolia.json` is absent.
+  - `node_modules` and `contracts/out` are present.
+  - The scripts `deploy`, `verify:contracts`, `check:deployment`, `demo`, `check:demo` and
+    `notices` exist.
+  - Foundry `forge` and `cast` are 1.4.4-stable at `%USERPROFILE%\.foundryin`. This is not on
+    PATH, so prepend it for `forge build` and the verify step.
+  - Base RPC: `eth_chainId` returns `0x14a34`. Blockscout `/api/v2/stats` returns 200.
+  - All four key names are in `HKCU\Environment`.
+  - Balances on Base Sepolia: deployer 0.048 ETH; feeder, operator A and operator B 0. Gate 6's
+    `--fund` tops those up from the deployer.
+
 ## Summary
 
 | # | Gate | Tier | Pass | Status |
