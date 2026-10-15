@@ -130,7 +130,7 @@ Batching is fine when named ("run gates 1–2"), but never assumed.
     - `FEEDER_PRIVATE_KEY` → `0xa070bAD2302c0E57FA84D0473b21d8B1eb37B34D`
     - `OPERATOR_A_PRIVATE_KEY` → `0xE17a32228332d4752065D32645F1c10E1619d91c`
     - `OPERATOR_B_PRIVATE_KEY` → `0xfB12D53CB01f58e641D4cA5b8ACaC57b3F5306D7`
-  - **Note for gates 5–6:** Foundry is at `%USERPROFILE%\.foundrybin`, which is not on this
+  - **Note for gates 5–6:** Foundry is at `%USERPROFILE%\.foundry\bin`, which is not on this
     session's PATH. Prepend it to that process's PATH before `forge build` and `npm run deploy`.
 - **Risk:**
   - The keys sit in plaintext in `HKCU\Environment`, readable by any process running as user
