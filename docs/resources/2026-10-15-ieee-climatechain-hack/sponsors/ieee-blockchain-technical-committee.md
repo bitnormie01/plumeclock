@@ -1,0 +1,8 @@
+# IEEE Blockchain Technical Committee / Community / Group
+
+Naming varies by source: Devpost text says "IEEE Blockchain Technical Group"; Devpost sponsor logo alt text says "IEEE Blockchain Committee"; the IEEE Türkiye event page says "IEEE Blockchain Technical Committee"; IEEE's own site (https://blockchain.ieee.org/about/) calls it the **IEEE Blockchain Technical Community (BCTC)**. Treated here as one body (inference from names; not stated by a source).
+
+What it is/cares about (https://blockchain.ieee.org/about/, via WebFetch 2026-10-15; direct curl returned 403): `The IEEE Blockchain Technical Community (BCTC) serves as a global collaboration hub for advancing technology, promoting education, publishing research, sharing knowledge, and developing standards across the multidisciplinary communities interested in blockchain, distributed ledgers, and related technologies.`
+Leadership per that page: Chair Gora Datta, FHL7 (also a hackathon judge/organizing member); Conferences/Events committee chair Sedat Akleylek; Women in Blockchain committee includes Kübra Seyhan. Technical committees listed include **Blockchain & Sustainability** and **Blockchain for Energy & Critical Infrastructure (BECI)** — topically adjacent to the tracks (inference; no source links them to judging).
+Co-organizer role on Devpost: listed under "Hackathon Sponsors → IEEE Blockchain Committee" (logo only). Pradyumna Kodgi is "Hackathon Team Co-Leader / IEEE Blockchain Technical Committee".
+Linked resources: https://blockchain.ieee.org/ ; communities page https://blockchain.ieee.org/communities/ (search snippet: partners with student clubs for hackathons). No SDKs.

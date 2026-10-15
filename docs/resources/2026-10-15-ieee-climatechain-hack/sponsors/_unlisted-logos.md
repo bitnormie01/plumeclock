@@ -1,0 +1,4 @@
+# Sponsor logos on the Devpost overview that are not named in the organizer text
+
+Devpost "Hackathon Sponsors" shows logos (alt text, verbatim): `Istanbul Chambers of Commerce`, `Ai Eco System`, `ISO`, `IEEE Blockchain Committee`, `IEEE Blockchain Committee Turkiye`, `IEEE Turkiye`, `IEEE Orange County Computer Society`, `IEE EMBS Orange County Chapter`, `IEEE Southern California Council`, `IEE Tech Sus`.
+Not named in any organizer text: **ISO** (image file ISO_1200x600.png — could be the standards body or something else; unverified), **IEEE Southern California Council**, **IEEE Technology Sustainability** ("IEE Tech Sus", likely IEEE's Technology & Sustainability initiative — unverified). No pages fetched for them; recorded as unverified sponsors/supporters. Source: https://ieee-climatechain-hack.devpost.com/ (HTML img alt text, fetched via curl 2026-10-15).

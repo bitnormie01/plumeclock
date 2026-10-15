@@ -1,0 +1,4 @@
+# IEEE Türkiye Section
+
+Source: https://www.ieee.org.tr/about-ieee-turkiye/ (fetched 2026-10-15): `The IEEE Türkiye Section covers the geographical area of the Republic of Türkiye and, as of May 2016, has currently more than 1400 active members. Turkiye Section belongs to Region 8, which consists of Europe, Middle East and Africa.` (figure is 2016-dated — stale.) It also describes IEEE generally: `more than 400,000+ members in about 160 countries`.
+Hackathon role: listed as collaborator on Devpost and on the IEEE Blockchain Türkiye page; the Türkiye blockchain group was "approved by the IEEE Blockchain and the IEEE Türkiye Section". Cares about: local IEEE membership/student branches/chapters (site nav). Linked resource: https://www.ieee.org.tr/ . No SDKs. No hackathon-specific page found.

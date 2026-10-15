@@ -1,0 +1,5 @@
+# AI Ecosystem Association of Türkiye (Yapay Zeka Ekosistemi Derneği)
+
+Source: https://yapayzekaekosistemi.org.tr/ (Turkish, fetched 2026-10-15). Mission (translated from the Turkish page by me): a platform bridging academia, industry and public sector; supporting growth of the AI ecosystem, AI literacy, data sovereignty, training local talent to global standards, and steering AI's societal transformation on scientific and ethical grounds. Vision wording includes "ethical, trustworthy and domestic technology production".
+Hackathon link (primary, from that page): under "Uluslararası Temsil" it lists `IEEE ClimateChain Hackathon: Innovate Today for a Sustainable Tomorrow`; under collaborations it lists `IEEE Blockzincir Türkiye Çalışma Grubu` and `IEEE Türkiye Section`. Its board chair is Prof. Dr. Şeref Sağıroğlu (who also chairs IEEE Blockchain Türkiye Group); Doç. Dr. Saadin Oyucu (a Devpost judge) is a vice chair.
+Signal (inference): ethical/trustworthy AI emphasis matches the learning-session topics (AI & cybersecurity; ethics). No SDKs.

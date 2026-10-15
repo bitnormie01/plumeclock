@@ -1,0 +1,4 @@
+# The Istanbul Chamber of Commerce (İTO / ICOC)
+
+Source: https://www.ito.org.tr/en/about-icoc/about-us (fetched 2026-10-15): `Istanbul Chamber of Commerce is the one of World's largest and deep-rooted chambers with over 800 thousand members.` Vision: `increasing the share of its members in international trade, guiding them through global economic developments, and contributing to the rise of Turkey as a regional power.` Founded 1882 (per same page).
+Hackathon role: listed as collaborator on Devpost (sponsor logo alt "Istanbul Chambers of Commerce") and the IEEE page. No climate/blockchain statement on the fetched page; no hackathon-specific page found. A business/trade body — a signal (inference only) that practical adoption by businesses matters, consistent with the "Practical Usefulness" criterion. No SDKs.
