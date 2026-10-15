@@ -69,6 +69,10 @@ go in chat each time: approving an OAuth/SSO grant, and accepting terms or rules
   - This seat does not write into the canonical clone while the build runs.
   - The deploy, demo and notices scripts tolerate a missing `.env` and read the process environment
     (`process.loadEnvFile('.env')` sits in a try/catch).
+- **Update, 2026-10-15:** Task 1.1 (`a8fa124`) is now in. In the canonical clone,
+  `git check-ignore -v .env` resolves to `.gitignore:8:.env` (exit 0), and no `.env` exists. The
+  user env store stays the plan anyway, because this seat still does not write into the clone
+  during the build.
 - **At closing time,** each gate loads the names it needs from `HKCU\Environment` into that one
   child process without printing them.
 - **If a `.env` exists by then,** first confirm `git -C <clone> check-ignore .env` succeeds. Also
