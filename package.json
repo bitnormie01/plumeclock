@@ -1,0 +1,59 @@
+{
+  "name": "plumeclock",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "typecheck": "tsc --noEmit",
+    "check": "tsc --noEmit && vitest run",
+    "test": "vitest run",
+    "test:contracts": "forge test",
+    "test:smoke": "forge test --match-contract SmokeTest && vitest run test/smoke.test.ts",
+    "test:abi": "forge build && vitest run test/abi.test.ts",
+    "test:e2e": "forge build && vitest run --config vitest.e2e.config.ts",
+    "verify:web": "vitest run test/dashboard.test.tsx && next build",
+    "abi": "forge build && tsx scripts/export-abi.ts",
+    "pin": "tsx scripts/pin-snapshot.ts",
+    "check:snapshot": "tsx scripts/check-snapshot.ts",
+    "fixtures": "tsx scripts/build-fixtures.ts",
+    "notices": "tsx scripts/notices.ts",
+    "deploy": "tsx scripts/deploy.ts",
+    "verify:contracts": "tsx scripts/verify-contracts.ts",
+    "check:deployment": "tsx scripts/check-deployment.ts",
+    "demo": "tsx scripts/demo.ts",
+    "check:demo": "tsx scripts/check-demo.ts"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "0.130.0",
+    "d3-geo": "3.1.1",
+    "next": "15.5.28",
+    "react": "19.2.9",
+    "react-dom": "19.2.9",
+    "topojson-client": "3.1.0",
+    "viem": "2.56.9",
+    "world-atlas": "2.0.2"
+  },
+  "devDependencies": {
+    "@openzeppelin/contracts": "5.4.0",
+    "@testing-library/dom": "10.4.2",
+    "@testing-library/react": "16.3.3",
+    "@types/d3-geo": "3.1.1",
+    "@types/geojson": "7946.0.16",
+    "@types/node": "22.20.5",
+    "@types/react": "19.2.18",
+    "@types/react-dom": "19.2.7",
+    "@types/topojson-client": "3.1.5",
+    "csv-parse": "5.6.0",
+    "fflate": "0.8.3",
+    "forge-std": "git+https://github.com/foundry-rs/forge-std.git#v1.11.0",
+    "jsdom": "26.1.0",
+    "tsx": "4.23.15",
+    "typescript": "5.9.3",
+    "vitest": "3.2.7"
+  }
+}

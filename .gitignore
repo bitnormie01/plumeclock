@@ -1,0 +1,14 @@
+node_modules/
+.next/
+out/
+contracts/out/
+contracts/cache/
+broadcast/
+*.tsbuildinfo
+.env
+.env.*
+!.env.example
+public/deployments/anvil.json
+public/deployments/anvil.demo.json
+coverage/
+*.log
