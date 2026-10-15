@@ -1,0 +1,171 @@
+{
+  "schema": "plumeclock.notices.v1",
+  "generatedAt": "2026-10-15T17:25:47.252Z",
+  "generator": "template",
+  "notices": {
+    "IRN_S_185": {
+      "text": "IRN_S_185 (Flare, Iran (Islamic Republic of)): satellites recorded a methane plume of 385,374 kg/h on 2025-10-30. If it persisted all year that is about 100,601,111 t CO2e (GWP100 29.8). IMEO status: Notified – no response received. Triage priority: low (10/100).",
+      "generator": "template"
+    },
+    "KAZ_S_185": {
+      "text": "KAZ_S_185 (Pipeline valve, Kazakhstan): satellites recorded a methane plume of 287,935 kg/h on 2026-07-30. If it persisted all year that is about 75,164,855 t CO2e (GWP100 29.8). IMEO status: Notified – no response received. Triage priority: high (40/100).",
+      "generator": "template"
+    },
+    "TKM_S_520": {
+      "text": "TKM_S_520 (O&G source (generic), Turkmenistan): satellites recorded a methane plume of 269,230 kg/h on 2026-07-15. If it persisted all year that is about 70,281,953 t CO2e (GWP100 29.8). IMEO status: Notified – no response received. Triage priority: high (40/100).",
+      "generator": "template"
+    },
+    "IRQ_S_067": {
+      "text": "IRQ_S_067 (Pipeline valve, Iraq): satellites recorded a methane plume of 123,491 kg/h on 2025-10-31. If it persisted all year that is about 32,237,078 t CO2e (GWP100 29.8). IMEO status: Government and operator responded. Triage priority: low (3/100).",
+      "generator": "template"
+    },
+    "USA_S_1212": {
+      "text": "USA_S_1212 (Abandoned wells, United States of America): satellites recorded a methane plume of 120,735 kg/h on 2026-06-29. If it persisted all year that is about 31,517,630 t CO2e (GWP100 29.8). IMEO status: Notified – no response received. Triage priority: high (40/100).",
+      "generator": "template"
+    },
+    "USA_S_1144": {
+      "text": "USA_S_1144 (Compressor station, United States of America): satellites recorded a methane plume of 103,000 kg/h on 2026-04-02. If it persisted all year that is about 26,887,944 t CO2e (GWP100 29.8). IMEO status: Notified – no response received. Triage priority: high (50/100).",
+      "generator": "template"
+    },
+    "IRN_S_210": {
+      "text": "IRN_S_210 (Flare, Iran (Islamic Republic of)): satellites recorded a methane plume of 70,716 kg/h on 2026-09-15. If it persisted all year that is about 18,460,270 t CO2e (GWP100 29.8). IMEO status: Notified – no response received. Triage priority: high (40/100).",
+      "generator": "template"
+    },
+    "USA_S_1064": {
+      "text": "USA_S_1064 (O&G source (generic), United States of America): satellites recorded a methane plume of 52,543 kg/h on 2026-01-21. If it persisted all year that is about 13,716,245 t CO2e (GWP100 29.8). IMEO status: Notified – no response received. Triage priority: low (10/100).",
+      "generator": "template"
+    },
+    "MEX_S_007": {
+      "text": "MEX_S_007 (Production Offshore, Mexico): satellites recorded a methane plume of 51,203 kg/h on 2026-08-25. If it persisted all year that is about 13,366,440 t CO2e (GWP100 29.8). IMEO status: Government and operator responded. Triage priority: medium (21/100).",
+      "generator": "template"
+    },
+    "IRN_S_186": {
+      "text": "IRN_S_186 (Flare, Iran (Islamic Republic of)): satellites recorded a methane plume of 44,652 kg/h on 2025-10-30. If it persisted all year that is about 11,656,315 t CO2e (GWP100 29.8). IMEO status: Notified – no response received. Triage priority: low (10/100).",
+      "generator": "template"
+    },
+    "TKM_S_389": {
+      "text": "TKM_S_389 (Transmission Pipelines, Turkmenistan): satellites recorded a methane plume of 43,480 kg/h on 2026-08-03. If it persisted all year that is about 11,350,367 t CO2e (GWP100 29.8). IMEO status: Notified – no response received. Triage priority: high (40/100).",
+      "generator": "template"
+    },
+    "USA_S_1099": {
+      "text": "USA_S_1099 (Pipeline valve, United States of America): satellites recorded a methane plume of 43,068 kg/h on 2026-02-21. If it persisted all year that is about 11,242,815 t CO2e (GWP100 29.8). IMEO status: Notified – no response received. Triage priority: low (10/100).",
+      "generator": "template"
+    },
+    "MEX_S_103": {
+      "text": "MEX_S_103 (Production Offshore, Mexico): satellites recorded a methane plume of 31,718 kg/h on 2026-09-10. If it persisted all year that is about 8,279,920 t CO2e (GWP100 29.8). IMEO status: Government and operator responded. Triage priority: medium (21/100).",
+      "generator": "template"
+    },
+    "TKM_S_460": {
+      "text": "TKM_S_460 (Transmission Pipelines, Turkmenistan): satellites recorded a methane plume of 28,670 kg/h on 2026-05-25. If it persisted all year that is about 7,484,246 t CO2e (GWP100 29.8). IMEO status: Notified – no response received. Triage priority: high (48/100).",
+      "generator": "template"
+    },
+    "RUS_S_227": {
+      "text": "RUS_S_227 (Pipeline valve, Russian Federation): satellites recorded a methane plume of 28,000 kg/h on 2026-04-02. If it persisted all year that is about 7,309,344 t CO2e (GWP100 29.8). IMEO status: Notified – no response received. Triage priority: high (48/100).",
+      "generator": "template"
+    },
+    "USA_S_017": {
+      "text": "USA_S_017 (Gathering and boosting facilities, United States of America): satellites recorded a methane plume of 27,992 kg/h on 2026-08-31. If it persisted all year that is about 7,307,255 t CO2e (GWP100 29.8). IMEO status: Notified – no response received. Triage priority: medium (39/100).",
+      "generator": "template"
+    },
+    "CHN_S_849": {
+      "text": "CHN_S_849 (Offshore platform, China): satellites recorded a methane plume of 27,362 kg/h on 2026-03-27. If it persisted all year that is about 7,142,795 t CO2e (GWP100 29.8). IMEO status: Notified – no response received. Triage priority: medium (39/100).",
+      "generator": "template"
+    },
+    "USA_S_162": {
+      "text": "USA_S_162 (O&G facility (generic), United States of America): satellites recorded a methane plume of 26,260 kg/h on 2026-07-10. If it persisted all year that is about 6,855,120 t CO2e (GWP100 29.8). IMEO status: Notified – no response received. Triage priority: medium (38/100).",
+      "generator": "template"
+    },
+    "VEN_S_143": {
+      "text": "VEN_S_143 (Production Offshore, Venezuela): satellites recorded a methane plume of 25,923 kg/h on 2026-08-21. If it persisted all year that is about 6,767,147 t CO2e (GWP100 29.8). IMEO status: Notified – no response received. Triage priority: high (48/100).",
+      "generator": "template"
+    },
+    "IND_S_053": {
+      "text": "IND_S_053 (Gathering and boosting facilities, India): satellites recorded a methane plume of 23,075 kg/h on 2026-02-19. If it persisted all year that is about 6,023,682 t CO2e (GWP100 29.8). IMEO status: Notified – no response received. Triage priority: high (47/100).",
+      "generator": "template"
+    },
+    "ARG_S_057": {
+      "text": "ARG_S_057 (Flare, Argentina): satellites recorded a methane plume of 22,919 kg/h on 2026-05-02. If it persisted all year that is about 5,982,959 t CO2e (GWP100 29.8). IMEO status: Government responded. Triage priority: medium (28/100).",
+      "generator": "template"
+    },
+    "UZB_S_143": {
+      "text": "UZB_S_143 (Pipeline valve, Uzbekistan): satellites recorded a methane plume of 22,446 kg/h on 2026-07-19. If it persisted all year that is about 5,859,483 t CO2e (GWP100 29.8). IMEO status: Notified – no response received. Triage priority: medium (38/100).",
+      "generator": "template"
+    },
+    "AZE_S_040": {
+      "text": "AZE_S_040 (O&G source (generic), Azerbaijan): satellites recorded a methane plume of 22,079 kg/h on 2026-07-23. If it persisted all year that is about 5,763,678 t CO2e (GWP100 29.8). IMEO status: Government and operator responded. Triage priority: low (11/100).",
+      "generator": "template"
+    },
+    "UZB_S_142": {
+      "text": "UZB_S_142 (Pipeline, Uzbekistan): satellites recorded a methane plume of 21,211 kg/h on 2026-07-12. If it persisted all year that is about 5,537,089 t CO2e (GWP100 29.8). IMEO status: Notified – no response received. Triage priority: medium (37/100).",
+      "generator": "template"
+    },
+    "TKM_S_547": {
+      "text": "TKM_S_547 (Pipeline valve, Turkmenistan): satellites recorded a methane plume of 21,064 kg/h on 2026-09-04. If it persisted all year that is about 5,498,715 t CO2e (GWP100 29.8). IMEO status: Notified – no response received. Triage priority: medium (37/100).",
+      "generator": "template"
+    },
+    "AZE_S_041": {
+      "text": "AZE_S_041 (Well head, Azerbaijan): satellites recorded a methane plume of 20,559 kg/h on 2026-06-17. If it persisted all year that is about 5,366,885 t CO2e (GWP100 29.8). IMEO status: Government and operator responded. Triage priority: low (11/100).",
+      "generator": "template"
+    },
+    "IRN_S_220": {
+      "text": "IRN_S_220 (Flare, Iran (Islamic Republic of)): satellites recorded a methane plume of 20,476 kg/h on 2026-06-14. If it persisted all year that is about 5,345,218 t CO2e (GWP100 29.8). IMEO status: Notified – no response received. Triage priority: medium (37/100).",
+      "generator": "template"
+    },
+    "CHN_S_852": {
+      "text": "CHN_S_852 (Offshore platform, China): satellites recorded a methane plume of 20,457 kg/h on 2026-03-27. If it persisted all year that is about 5,340,258 t CO2e (GWP100 29.8). IMEO status: Notified – no response received. Triage priority: medium (37/100).",
+      "generator": "template"
+    },
+    "USA_S_050": {
+      "text": "USA_S_050 (Gas Processing Unit, United States of America): satellites recorded a methane plume of 20,440 kg/h on 2025-11-10. If it persisted all year that is about 5,335,821 t CO2e (GWP100 29.8). IMEO status: Notified – no response received. Triage priority: low (9/100).",
+      "generator": "template"
+    },
+    "DZA_S_180": {
+      "text": "DZA_S_180 (Flare, Algeria): satellites recorded a methane plume of 19,718 kg/h on 2025-10-15. If it persisted all year that is about 5,147,344 t CO2e (GWP100 29.8). IMEO status: Notified – no response received. Triage priority: low (9/100).",
+      "generator": "template"
+    },
+    "VEN_S_008": {
+      "text": "VEN_S_008 (Flare, Venezuela): satellites recorded a methane plume of 19,687 kg/h on 2026-08-04. If it persisted all year that is about 5,139,251 t CO2e (GWP100 29.8). IMEO status: Notified – no response received. Triage priority: medium (37/100).",
+      "generator": "template"
+    },
+    "SYR_S_063": {
+      "text": "SYR_S_063 (Transmission Pipelines, Syrian Arab Republic): satellites recorded a methane plume of 19,357 kg/h on 2026-04-16. If it persisted all year that is about 5,053,106 t CO2e (GWP100 29.8). IMEO status: Notified – no response received. Triage priority: medium (37/100).",
+      "generator": "template"
+    },
+    "IRN_S_218": {
+      "text": "IRN_S_218 (Flare, Iran (Islamic Republic of)): satellites recorded a methane plume of 19,318 kg/h on 2026-05-28. If it persisted all year that is about 5,042,925 t CO2e (GWP100 29.8). IMEO status: Notified – no response received. Triage priority: medium (37/100).",
+      "generator": "template"
+    },
+    "MMR_S_006": {
+      "text": "MMR_S_006 (O&G source (generic), Myanmar): satellites recorded a methane plume of 18,957 kg/h on 2026-04-02. If it persisted all year that is about 4,948,686 t CO2e (GWP100 29.8). IMEO status: Notified – no response received. Triage priority: medium (37/100).",
+      "generator": "template"
+    },
+    "TKM_S_524": {
+      "text": "TKM_S_524 (Transmission Pipelines, Turkmenistan): satellites recorded a methane plume of 18,382 kg/h on 2026-08-03. If it persisted all year that is about 4,798,584 t CO2e (GWP100 29.8). IMEO status: Notified – no response received. Triage priority: medium (37/100).",
+      "generator": "template"
+    },
+    "TKM_S_490": {
+      "text": "TKM_S_490 (Pipeline, Turkmenistan): satellites recorded a methane plume of 17,584 kg/h on 2026-05-23. If it persisted all year that is about 4,590,268 t CO2e (GWP100 29.8). IMEO status: Government and operator responded. Triage priority: low (11/100).",
+      "generator": "template"
+    },
+    "CHN_S_848": {
+      "text": "CHN_S_848 (Offshore platform, China): satellites recorded a methane plume of 17,564 kg/h on 2026-03-27. If it persisted all year that is about 4,585,047 t CO2e (GWP100 29.8). IMEO status: Notified – no response received. Triage priority: medium (37/100).",
+      "generator": "template"
+    },
+    "UZB_S_135": {
+      "text": "UZB_S_135 (Pipeline, Uzbekistan): satellites recorded a methane plume of 16,259 kg/h on 2026-06-03. If it persisted all year that is about 4,244,379 t CO2e (GWP100 29.8). IMEO status: Notified – no response received. Triage priority: medium (36/100).",
+      "generator": "template"
+    },
+    "CHN_S_1068": {
+      "text": "CHN_S_1068 (Offshore platform, China): satellites recorded a methane plume of 15,589 kg/h on 2026-09-15. If it persisted all year that is about 4,069,477 t CO2e (GWP100 29.8). IMEO status: Notified – no response received. Triage priority: medium (36/100).",
+      "generator": "template"
+    },
+    "CHN_S_851": {
+      "text": "CHN_S_851 (Offshore platform, China): satellites recorded a methane plume of 15,530 kg/h on 2026-03-27. If it persisted all year that is about 4,054,075 t CO2e (GWP100 29.8). IMEO status: Notified – no response received. Triage priority: medium (36/100).",
+      "generator": "template"
+    },
+    "KAZ_S_003": {
+      "text": "KAZ_S_003 (Transmission Compressor Station, Kazakhstan): satellites recorded a methane plume of 7,847 kg/h on 2026-05-31. If it persisted all year that is about 2,048,443 t CO2e (GWP100 29.8). IMEO status: Notified – no response received. Triage priority: high (83/100).",
+      "generator": "template"
+    }
+  }
+}
