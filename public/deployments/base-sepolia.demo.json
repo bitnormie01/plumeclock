@@ -1,0 +1,90 @@
+{
+  "schema": "plumeclock.demo-run.v1",
+  "network": "base-sepolia",
+  "plumeClock": "0x921ab35694821aa04d716eccd5576563199e0adb",
+  "snapshotRoot": "0x402809f0f646052590cc2243d1dd3e0b572a7188c227a14b38cf79ade1e8ec5d",
+  "reobservationRoot": "0x9fa40d49f9102ca4025c01adb28a7752b5cff0c91bb47383bd776ac8f11106cc",
+  "tickets": {
+    "operatorA": "0x2578d89fc18d431f8327bf24b1c7784eb326191379209da763610330cb3f427a",
+    "operatorB": "0x82d27f7771d8d240b8f2167855cd080ea4c54c6b2f71d189176b89b3d06c58ea"
+  },
+  "scenario": {
+    "operatorA": "IRQ_S_067",
+    "operatorB": "KAZ_S_003"
+  },
+  "txs": [
+    {
+      "scene": "setup",
+      "label": "Operator A pledges for IRQ_S_067",
+      "hash": "0xee3f182b0cc17aa30293c1d310e6c5aac728116feb90077ba1aeea078db6b318",
+      "url": "https://base-sepolia.blockscout.com/tx/0xee3f182b0cc17aa30293c1d310e6c5aac728116feb90077ba1aeea078db6b318"
+    },
+    {
+      "scene": "setup",
+      "label": "Operator B pledges for KAZ_S_003",
+      "hash": "0x982b4794c46e5117f344c1ac67ca4fdab6180a870820ce84abaecc8ec7b37773",
+      "url": "https://base-sepolia.blockscout.com/tx/0x982b4794c46e5117f344c1ac67ca4fdab6180a870820ce84abaecc8ec7b37773"
+    },
+    {
+      "scene": "setup",
+      "label": "Feeder posts snapshot root (1914 IMEO records)",
+      "hash": "0xda6cc690526594ff6610c7097826ab97369962a2a5694d0c9f71c8e8c2afd26e",
+      "url": "https://base-sepolia.blockscout.com/tx/0xda6cc690526594ff6610c7097826ab97369962a2a5694d0c9f71c8e8c2afd26e"
+    },
+    {
+      "scene": "setup",
+      "label": "Open 10 background tickets",
+      "hash": "0x839db66239c5174023495f03d52115a9722f5d5f05c08d89a0772350a589d547",
+      "url": "https://base-sepolia.blockscout.com/tx/0x839db66239c5174023495f03d52115a9722f5d5f05c08d89a0772350a589d547"
+    },
+    {
+      "scene": "setup",
+      "label": "Open 10 background tickets",
+      "hash": "0x3f7d9c5eee38ec1d4d29bc2e0034fafdffe3e1eb879a174bc02c7eebb1d9b113",
+      "url": "https://base-sepolia.blockscout.com/tx/0x3f7d9c5eee38ec1d4d29bc2e0034fafdffe3e1eb879a174bc02c7eebb1d9b113"
+    },
+    {
+      "scene": "setup",
+      "label": "Open 10 background tickets",
+      "hash": "0x1597421dc05ef19ea8082f5f49a2b3b2534eb79e5e40d8d608646d3515a06405",
+      "url": "https://base-sepolia.blockscout.com/tx/0x1597421dc05ef19ea8082f5f49a2b3b2534eb79e5e40d8d608646d3515a06405"
+    },
+    {
+      "scene": "setup",
+      "label": "Open 9 background tickets",
+      "hash": "0x0f587d1bea68f176047e1f960c159c9907f402c47a95355b6d064062d4cdd9b0",
+      "url": "https://base-sepolia.blockscout.com/tx/0x0f587d1bea68f176047e1f960c159c9907f402c47a95355b6d064062d4cdd9b0"
+    },
+    {
+      "scene": "1",
+      "label": "Open tickets for IRQ_S_067 and KAZ_S_003",
+      "hash": "0x06d26c0349c6203e11a62777eb4416d8cfa1c7ad0ff764be55054af98778f15a",
+      "url": "https://base-sepolia.blockscout.com/tx/0x06d26c0349c6203e11a62777eb4416d8cfa1c7ad0ff764be55054af98778f15a"
+    },
+    {
+      "scene": "2",
+      "label": "Operator A responds to IRQ_S_067",
+      "hash": "0x9b06405dcbe9dc0c565b3be6852d9a17b51712af943b1a4c2ac9f2055b62f764",
+      "url": "https://base-sepolia.blockscout.com/tx/0x9b06405dcbe9dc0c565b3be6852d9a17b51712af943b1a4c2ac9f2055b62f764"
+    },
+    {
+      "scene": "3",
+      "label": "Feeder posts replayed re-observation root (35 sources)",
+      "hash": "0x7f16b7520a3c51f734da2bd29f77d6abce6c219c8b16a7ec9db61e0cf6f2b447",
+      "url": "https://base-sepolia.blockscout.com/tx/0x7f16b7520a3c51f734da2bd29f77d6abce6c219c8b16a7ec9db61e0cf6f2b447"
+    },
+    {
+      "scene": "3",
+      "label": "Resolve IRQ_S_067 (no plume on re-observation)",
+      "hash": "0xd6a20d17ab06e44aa8fd2880c8df284fb1fab4b0d8a93a58b587031dd6183adf",
+      "url": "https://base-sepolia.blockscout.com/tx/0xd6a20d17ab06e44aa8fd2880c8df284fb1fab4b0d8a93a58b587031dd6183adf"
+    },
+    {
+      "scene": "4",
+      "label": "Slash KAZ_S_003: bond to the mitigation fund",
+      "hash": "0xd579f68d00ecbac4ae39d914cd5a5bff4ad52b1efec08d52cae1b3ad503b46c9",
+      "url": "https://base-sepolia.blockscout.com/tx/0xd579f68d00ecbac4ae39d914cd5a5bff4ad52b1efec08d52cae1b3ad503b46c9"
+    }
+  ],
+  "finishedAt": "2026-10-15T19:16:09.884Z"
+}
