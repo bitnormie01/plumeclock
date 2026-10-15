@@ -95,7 +95,7 @@ go in chat each time: approving an OAuth/SSO grant, and accepting terms or rules
   - `node_modules` and `contracts/out` are present.
   - The scripts `deploy`, `verify:contracts`, `check:deployment`, `demo`, `check:demo` and
     `notices` exist.
-  - Foundry `forge` and `cast` are 1.4.4-stable at `%USERPROFILE%\.foundryin`. This is not on
+  - Foundry `forge` and `cast` are 1.4.4-stable at `%USERPROFILE%\.foundry\bin`. This is not on
     PATH, so prepend it for `forge build` and the verify step.
   - Base RPC: `eth_chainId` returns `0x14a34`. Blockscout `/api/v2/stats` returns 200.
   - All four key names are in `HKCU\Environment`.
