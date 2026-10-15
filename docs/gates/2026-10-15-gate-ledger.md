@@ -114,7 +114,7 @@ go in chat each time: approving an OAuth/SSO grant, and accepting terms or rules
 | 6 | `demo:4.6` demo run on Base Sepolia | A | closing | **done** 2026-10-16 (`bf27897`) |
 | 7 | `data:2.12` Claude-drafted notices (optional) | A | closing | pending (needs gate 4) |
 | 8 | Flip `bitnormie01/plumeclock` public | A (explicit consent) | closing | pending |
-| 9 | Host the live dashboard (GitHub Pages) — **plan gap** | A (explicit consent) | closing | pending — needs a decision |
+| 9 | Host the live dashboard (GitHub Pages) — **plan gap** | A (explicit consent) | closing | pending — approach approved 2026-10-16; runs after gate 8, on its own go |
 | 10 | Demo video + upload | owned by demo-studio (Step 2.5) | closing | dependency, not run here |
 | 11 | Fill the Devpost submission form (save as draft) | A (explicit consent) | closing | pending |
 | 12 | Press Submit on Devpost | C | closing | pending |
@@ -448,7 +448,13 @@ Batching is fine when named ("run gates 1–2"), but never assumed.
 - **Pass:** closing (after gates 5 and 8).
 - **Human moment:** a decision. Accept this approach, or route it to the architect as a plan task.
 - **Risk:** a public static site. It reads only public on-chain data and the committed JSON.
-- **Status:** pending — needs a decision.
+- **Decision (2026-10-16):** the user approved the proposed approach: "after the repo goes public
+  (gate 8), build the static export with NEXT_PUBLIC_BASE_PATH=/plumeclock and publish out/ to a
+  gh-pages branch. Don't run it yet; ask me per gate."
+  - This approves the approach, not the run.
+  - The URL to expect is `https://bitnormie01.github.io/plumeclock/`, unconfirmed until it is
+    published.
+- **Status:** pending. It needs gate 8 done, then the user's go for gate 9 itself.
 
 ### 10 · Demo video + upload — owned by demo-studio (Step 2.5)
 
@@ -530,3 +536,4 @@ Batching is fine when named ("run gates 1–2"), but never assumed.
 | 2026-10-15 | 3 | Devpost read-only check: not signed in (Log in / Sign up shown). No sign-in, no Join. | gate 3 evidence |
 | 2026-10-16 | 5 | Base Sepolia deploy (PlumeClock + MitigationFund), Blockscout source verification, deployment file committed. | `2870cd7` |
 | 2026-10-16 | 6 | Base Sepolia demo run: 3 × 0.003 ETH funding from the deployer, 12 demo txs, operator B's 0.001 ETH bond slashed to the fund. Demo file committed. | `bf27897` |
+| 2026-10-16 | 9 | User approved the hosting approach (static export to a `gh-pages` branch after gate 8). Not run: each gate still needs its own go. | chat |
