@@ -1,3 +1,5 @@
+import { Dashboard } from '../components/Dashboard';
+
 export default function Page() {
-  return <main>PlumeClock</main>;
+  return <Dashboard />;
 }
