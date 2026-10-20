@@ -108,7 +108,7 @@ go in chat each time: approving an OAuth/SSO grant, and accepting terms or rules
 |---|---|---|---|---|
 | 1 | Four burner wallets → user env store | A | **preflight** | **done** 2026-10-15 |
 | 2 | Faucet ≥ 0.02 Base Sepolia ETH → deployer (+ kit write-back) | B (ran as A: no human moment arose) | **preflight** | **done** 2026-10-15 |
-| 3 | Devpost sign-in + hackathon registration check | B | **preflight** | **blocked** — the user needs to sign in on Devpost |
+| 3 | Devpost sign-in + hackathon registration check | B | **preflight** | **done (user-reported)** 2026-10-20 — Devpost account created; registration confirmed at gate 11 |
 | 4 | Optional `LLM_API_KEY` (Anthropic) | B (billing part C) | **preflight** | pending |
 | 5 | `demo:4.5` deploy to Base Sepolia + Blockscout verify | A | closing | **done** 2026-10-16 (`2870cd7`) |
 | 6 | `demo:4.6` demo run on Base Sepolia | A | closing | **done** 2026-10-16 (`bf27897`) |
@@ -266,10 +266,13 @@ Batching is fine when named ("run gates 1–2"), but never assumed.
   - The overview asks participants to "register to receive regular updates and access upcoming
     sessions".
   - No click was made beyond reading: no sign-in and no Join.
-- **Status:** **blocked**. Next steps:
-  1. The user signs in to Devpost in this Chrome profile, with the account they will submit from.
-  2. On the user's word, the agent re-reads the identity and the registration state.
-  3. If not registered, the user reviews the rules and clicks "Join hackathon".
+- **Update, 2026-10-20 (user-reported):** the user says their Devpost account is created. The agent
+  did not verify this: no browser read, no sign-in.
+- **Status:** **done (user-reported)** 2026-10-20 for the account part only. Still open, and
+  carried to gate 11:
+  1. Confirm the hackathon registration ("Join hackathon") and the signed-in identity. Gate 11's
+     first step re-reads the signed-in Devpost identity and registration state.
+  2. If not registered, the user reviews the rules and clicks "Join hackathon".
 
 ### 4 · Optional `LLM_API_KEY` (Anthropic)
 
@@ -537,3 +540,4 @@ Batching is fine when named ("run gates 1–2"), but never assumed.
 | 2026-10-16 | 5 | Base Sepolia deploy (PlumeClock + MitigationFund), Blockscout source verification, deployment file committed. | `2870cd7` |
 | 2026-10-16 | 6 | Base Sepolia demo run: 3 × 0.003 ETH funding from the deployer, 12 demo txs, operator B's 0.001 ETH bond slashed to the fund. Demo file committed. | `bf27897` |
 | 2026-10-16 | 9 | User approved the hosting approach (static export to a `gh-pages` branch after gate 8). Not run: each gate still needs its own go. | chat |
+| 2026-10-20 | 3 | User reported that their Devpost account is created. Not verified by the agent. Hackathon registration is to be confirmed at gate 11. | chat |
