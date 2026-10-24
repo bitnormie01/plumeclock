@@ -475,7 +475,11 @@ Batching is fine when named ("run gates 1–2"), but never assumed.
   Gate 11 pauses until it's done.
 - **Tollgate row 13:** Chrome must be signed in to the upload account. That gets re-probed in
   demo-studio's own session.
-- **Status:** dependency, not run by this seat.
+- **Status:** video done and approved 2026-10-24. demo-studio recorded and assembled
+  `demo/out/PlumeClock-demo.mp4` (168.5 s, 1080p), and the user watched it and approved it as is
+  (`docs/demo/2026-10-20-demo-script.md` §8). Upload is struck, so the demo-video URL stays `TBD`
+  in `docs/gates/submission-draft.md` until the user chooses where the file is hosted. Gate 11
+  pauses until that URL exists.
 
 ### 11 · Fill the Devpost submission form (save as draft)
 
@@ -553,3 +557,4 @@ Batching is fine when named ("run gates 1–2"), but never assumed.
 | 2026-10-20 | 3 | User reported that their Devpost account is created. Not verified by the agent. Hackathon registration is to be confirmed at gate 11. | chat |
 | 2026-10-24 | 5 | Fresh Base Sepolia deploy for the demo video, verified on Blockscout. It becomes the canonical deployment on the user's decision. | PlumeClock `0x402931fa…96ac4` |
 | 2026-10-24 | 6 | Demo run on the new deployment (12 txs). Operator B's 0.001 ETH bond slashed to the fund. | `0xa0ed0c67…937a27` |
+| 2026-10-24 | 10 | Demo video recorded, assembled and QC'd. The user watched it and approved it as is. Upload struck; the URL is the user's call. | demo script §8 |

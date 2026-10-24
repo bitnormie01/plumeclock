@@ -130,3 +130,4 @@ Order: title card (3 s over S1) → S1 → S2 → S3 → S4 → S5 → S6 → ou
 | 2026-10-24 | recorded (6/6 scenes) | demo-studio |
 | 2026-10-24 | assembled | demo-studio |
 | 2026-10-24 | QC passed [residuals: S1 no hover label; S3 early green; S4/S2 labelled jump cuts; S6 ~15 s hold; ad banners hidden on Blockscout] | demo-studio |
+| 2026-10-24 | watched (user watched `demo/out/PlumeClock-demo.mp4` and approved it as is; residuals accepted) | the user |
