@@ -1,0 +1,8 @@
+{
+  "S1": { "pieces": [ { "s": "dash", "rel": true, "from": 0.0, "to": 15.6 } ] },
+  "S2": { "pieces": [ { "s": "dash", "rel": true, "from": 33.0, "to": 45.4 }, { "s": "dash", "rel": true, "from": 51.5, "to": 71.8 } ] },
+  "S3": { "pieces": [ { "s": "dash", "rel": true, "from": 72.4, "to": 80.4 }, { "s": "extra", "rel": true, "from": 0.8, "to": 13.0 } ] },
+  "S4": { "pieces": [ { "s": "dash", "rel": true, "from": 80.5, "to": 95.5 }, { "s": "dash", "rel": true, "from": 229.4, "to": 245.2 } ] },
+  "S5": { "pieces": [ { "s": "blockscout", "rel": true, "from": 1.0, "to": 8.0 }, { "s": "blockscout", "rel": true, "from": 13.3, "to": 18.3 }, { "s": "dash", "rel": true, "from": 270.1, "to": 278.5 }, { "s": "dash", "rel": true, "from": 278.5, "to": 283.6 } ] },
+  "S6": { "pieces": [ { "s": "dash", "rel": true, "from": 286.2, "to": 304.3 } ] }
+}

@@ -1,9 +1,9 @@
 {
   "schema": "plumeclock.demo-run.v1",
   "network": "base-sepolia",
-  "plumeClock": "0x921ab35694821aa04d716eccd5576563199e0adb",
+  "plumeClock": "0x402931fa5b7e97049b1522a05a6019dfd6196ac4",
   "snapshotRoot": "0x402809f0f646052590cc2243d1dd3e0b572a7188c227a14b38cf79ade1e8ec5d",
-  "reobservationRoot": "0x9fa40d49f9102ca4025c01adb28a7752b5cff0c91bb47383bd776ac8f11106cc",
+  "reobservationRoot": "0x5e49c148d0852009a83f216e7c40976458ec326dc57d670f9c61d40fa70e56d0",
   "tickets": {
     "operatorA": "0x2578d89fc18d431f8327bf24b1c7784eb326191379209da763610330cb3f427a",
     "operatorB": "0x82d27f7771d8d240b8f2167855cd080ea4c54c6b2f71d189176b89b3d06c58ea"
@@ -16,75 +16,75 @@
     {
       "scene": "setup",
       "label": "Operator A pledges for IRQ_S_067",
-      "hash": "0xee3f182b0cc17aa30293c1d310e6c5aac728116feb90077ba1aeea078db6b318",
-      "url": "https://base-sepolia.blockscout.com/tx/0xee3f182b0cc17aa30293c1d310e6c5aac728116feb90077ba1aeea078db6b318"
+      "hash": "0xc55acb8a0931f91a92097e9857aff6d21bf1ea3d4acb0e492a65df691f79745d",
+      "url": "https://base-sepolia.blockscout.com/tx/0xc55acb8a0931f91a92097e9857aff6d21bf1ea3d4acb0e492a65df691f79745d"
     },
     {
       "scene": "setup",
       "label": "Operator B pledges for KAZ_S_003",
-      "hash": "0x982b4794c46e5117f344c1ac67ca4fdab6180a870820ce84abaecc8ec7b37773",
-      "url": "https://base-sepolia.blockscout.com/tx/0x982b4794c46e5117f344c1ac67ca4fdab6180a870820ce84abaecc8ec7b37773"
+      "hash": "0xea94c7d5899451428b0018d5b0ac5cc25c7815f281e5cfe08c531c3f6727410e",
+      "url": "https://base-sepolia.blockscout.com/tx/0xea94c7d5899451428b0018d5b0ac5cc25c7815f281e5cfe08c531c3f6727410e"
     },
     {
       "scene": "setup",
       "label": "Feeder posts snapshot root (1914 IMEO records)",
-      "hash": "0xda6cc690526594ff6610c7097826ab97369962a2a5694d0c9f71c8e8c2afd26e",
-      "url": "https://base-sepolia.blockscout.com/tx/0xda6cc690526594ff6610c7097826ab97369962a2a5694d0c9f71c8e8c2afd26e"
+      "hash": "0x9786392c3e524ac312191dc637264bc566f76df64b8cdb19b0f56c9566833a47",
+      "url": "https://base-sepolia.blockscout.com/tx/0x9786392c3e524ac312191dc637264bc566f76df64b8cdb19b0f56c9566833a47"
     },
     {
       "scene": "setup",
       "label": "Open 10 background tickets",
-      "hash": "0x839db66239c5174023495f03d52115a9722f5d5f05c08d89a0772350a589d547",
-      "url": "https://base-sepolia.blockscout.com/tx/0x839db66239c5174023495f03d52115a9722f5d5f05c08d89a0772350a589d547"
+      "hash": "0x58c8d13db986104cba0a7e4f5f2fb4b0f72e5300b68bd05dcb514616b71626fa",
+      "url": "https://base-sepolia.blockscout.com/tx/0x58c8d13db986104cba0a7e4f5f2fb4b0f72e5300b68bd05dcb514616b71626fa"
     },
     {
       "scene": "setup",
       "label": "Open 10 background tickets",
-      "hash": "0x3f7d9c5eee38ec1d4d29bc2e0034fafdffe3e1eb879a174bc02c7eebb1d9b113",
-      "url": "https://base-sepolia.blockscout.com/tx/0x3f7d9c5eee38ec1d4d29bc2e0034fafdffe3e1eb879a174bc02c7eebb1d9b113"
+      "hash": "0xa1d3f992185fc09086f330e18fc8807ecf22c45d742a18d8ed9cdb6f97438ea7",
+      "url": "https://base-sepolia.blockscout.com/tx/0xa1d3f992185fc09086f330e18fc8807ecf22c45d742a18d8ed9cdb6f97438ea7"
     },
     {
       "scene": "setup",
       "label": "Open 10 background tickets",
-      "hash": "0x1597421dc05ef19ea8082f5f49a2b3b2534eb79e5e40d8d608646d3515a06405",
-      "url": "https://base-sepolia.blockscout.com/tx/0x1597421dc05ef19ea8082f5f49a2b3b2534eb79e5e40d8d608646d3515a06405"
+      "hash": "0x2a320fc2be38aecee7bb1efdf492d6c55e01afc414115abccc364b8435dcb6c9",
+      "url": "https://base-sepolia.blockscout.com/tx/0x2a320fc2be38aecee7bb1efdf492d6c55e01afc414115abccc364b8435dcb6c9"
     },
     {
       "scene": "setup",
       "label": "Open 9 background tickets",
-      "hash": "0x0f587d1bea68f176047e1f960c159c9907f402c47a95355b6d064062d4cdd9b0",
-      "url": "https://base-sepolia.blockscout.com/tx/0x0f587d1bea68f176047e1f960c159c9907f402c47a95355b6d064062d4cdd9b0"
+      "hash": "0x0e27d768b4cab45fc8a7765f2d389d9f377e8b204c94191c130a06712f668037",
+      "url": "https://base-sepolia.blockscout.com/tx/0x0e27d768b4cab45fc8a7765f2d389d9f377e8b204c94191c130a06712f668037"
     },
     {
       "scene": "1",
       "label": "Open tickets for IRQ_S_067 and KAZ_S_003",
-      "hash": "0x06d26c0349c6203e11a62777eb4416d8cfa1c7ad0ff764be55054af98778f15a",
-      "url": "https://base-sepolia.blockscout.com/tx/0x06d26c0349c6203e11a62777eb4416d8cfa1c7ad0ff764be55054af98778f15a"
+      "hash": "0x7724949b86b18538d17cbecf88eb92f6d246441a6ff9e1b8fe85e290f8043e5f",
+      "url": "https://base-sepolia.blockscout.com/tx/0x7724949b86b18538d17cbecf88eb92f6d246441a6ff9e1b8fe85e290f8043e5f"
     },
     {
       "scene": "2",
       "label": "Operator A responds to IRQ_S_067",
-      "hash": "0x9b06405dcbe9dc0c565b3be6852d9a17b51712af943b1a4c2ac9f2055b62f764",
-      "url": "https://base-sepolia.blockscout.com/tx/0x9b06405dcbe9dc0c565b3be6852d9a17b51712af943b1a4c2ac9f2055b62f764"
+      "hash": "0x05f7b78bb7df16a5f46a798d41d50d69bdf3dc8ef1f651c1574b8102f240cbdb",
+      "url": "https://base-sepolia.blockscout.com/tx/0x05f7b78bb7df16a5f46a798d41d50d69bdf3dc8ef1f651c1574b8102f240cbdb"
     },
     {
       "scene": "3",
       "label": "Feeder posts replayed re-observation root (35 sources)",
-      "hash": "0x7f16b7520a3c51f734da2bd29f77d6abce6c219c8b16a7ec9db61e0cf6f2b447",
-      "url": "https://base-sepolia.blockscout.com/tx/0x7f16b7520a3c51f734da2bd29f77d6abce6c219c8b16a7ec9db61e0cf6f2b447"
+      "hash": "0x621d4b8aec271840dba8e04903a1076e69711401baf8ee72a7f41281dba9a119",
+      "url": "https://base-sepolia.blockscout.com/tx/0x621d4b8aec271840dba8e04903a1076e69711401baf8ee72a7f41281dba9a119"
     },
     {
       "scene": "3",
       "label": "Resolve IRQ_S_067 (no plume on re-observation)",
-      "hash": "0xd6a20d17ab06e44aa8fd2880c8df284fb1fab4b0d8a93a58b587031dd6183adf",
-      "url": "https://base-sepolia.blockscout.com/tx/0xd6a20d17ab06e44aa8fd2880c8df284fb1fab4b0d8a93a58b587031dd6183adf"
+      "hash": "0xaf01fc767260fd18ec53294cefb26be886f0d47a8aa16da9220818d57405372e",
+      "url": "https://base-sepolia.blockscout.com/tx/0xaf01fc767260fd18ec53294cefb26be886f0d47a8aa16da9220818d57405372e"
     },
     {
       "scene": "4",
       "label": "Slash KAZ_S_003: bond to the mitigation fund",
-      "hash": "0xd579f68d00ecbac4ae39d914cd5a5bff4ad52b1efec08d52cae1b3ad503b46c9",
-      "url": "https://base-sepolia.blockscout.com/tx/0xd579f68d00ecbac4ae39d914cd5a5bff4ad52b1efec08d52cae1b3ad503b46c9"
+      "hash": "0xa0ed0c67ede010b3c17bbec8d5740e0aabd5f4be139a0316aef5556bc5937a27",
+      "url": "https://base-sepolia.blockscout.com/tx/0xa0ed0c67ede010b3c17bbec8d5740e0aabd5f4be139a0316aef5556bc5937a27"
     }
   ],
-  "finishedAt": "2026-10-15T19:16:09.884Z"
+  "finishedAt": "2026-10-24T10:15:19.376Z"
 }

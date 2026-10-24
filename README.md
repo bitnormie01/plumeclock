@@ -134,8 +134,8 @@ Environment variables (copy `.env.example` to `.env`; never commit it):
 
 Filled from `public/deployments/base-sepolia.json` after the human-gated testnet deploy:
 
-TBD-post-build:Base Sepolia PlumeClock address + Blockscout link
-TBD-post-build:Base Sepolia MitigationFund address + Blockscout link
+PlumeClock: [`0x402931fa5b7e97049b1522a05a6019dfd6196ac4`](https://base-sepolia.blockscout.com/address/0x402931fa5b7e97049b1522a05a6019dfd6196ac4)
+MitigationFund: [`0x33fae8476373818d8eb813ca6b8d6e15376c03f9`](https://base-sepolia.blockscout.com/address/0x33fae8476373818d8eb813ca6b8d6e15376c03f9)
 
 ## Roadmap
 

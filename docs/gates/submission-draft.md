@@ -145,9 +145,9 @@ anthropic-claude-api · base-sepolia · blockscout · unep-imeo-eye-on-methane
 TBD-post-build: demo video URL
 TBD-post-build: public GitHub repository URL (bitnormie01/plumeclock, after the consent-gated public flip)
 TBD-post-build: live dashboard URL
-TBD-post-build: Base Sepolia PlumeClock address + Blockscout URL
-TBD-post-build: Base Sepolia MitigationFund address + Blockscout URL
-TBD-post-build: Blockscout URL of the demo's slash transaction (operator B)
+Base Sepolia PlumeClock: 0x402931fa5b7e97049b1522a05a6019dfd6196ac4 — https://base-sepolia.blockscout.com/address/0x402931fa5b7e97049b1522a05a6019dfd6196ac4
+Base Sepolia MitigationFund: 0x33fae8476373818d8eb813ca6b8d6e15376c03f9 — https://base-sepolia.blockscout.com/address/0x33fae8476373818d8eb813ca6b8d6e15376c03f9
+Demo slash transaction (operator B, KAZ_S_003): https://base-sepolia.blockscout.com/tx/0xa0ed0c67ede010b3c17bbec8d5740e0aabd5f4be139a0316aef5556bc5937a27
 TBD-post-build: dashboard screenshot for the image gallery (docs/img/dashboard.png)
 TBD-post-build: upload file, a PDF bundle of docs/architecture.md, docs/security-and-data-integrity.md and docs/impact-and-adoption.md (≤ 35 MB), if the form asks for one
 

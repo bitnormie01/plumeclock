@@ -1,0 +1,9 @@
+node_modules/
+.venv/
+raw/
+out/
+audio/
+qc/
+*.mp4
+*.wav
+*.log

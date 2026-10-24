@@ -1,0 +1,6 @@
+{
+  "S1": { "zoom": true, "titleCard": true },
+  "S2": { "chip": { "atSec": 11.9, "durSec": 2.8, "text": "waiting for blocks: setup trimmed for time" } },
+  "S4": { "chip": { "atSec": 14.2, "durSec": 3.2, "text": "clock trimmed: the demo window is 180 s" } },
+  "S6": { "outro": { "fromSec": 22.0 } }
+}

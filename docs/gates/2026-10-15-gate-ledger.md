@@ -343,6 +343,11 @@ Batching is fine when named ("run gates 1–2"), but never assumed.
     - https://base-sepolia.blockscout.com/address/0x921ab35694821aa04d716eccd5576563199e0adb
     - https://base-sepolia.blockscout.com/address/0x877585e6c29ab9493ea8897638248f76b51bada6
 - **Status:** **done** 2026-10-16.
+- **Update, 2026-10-24 (demo-studio, on the user's decision):** the demo video runs on a fresh deployment, and that deployment is now the canonical one. It supersedes the 2026-10-16 deployment above.
+  - `npm run deploy -- --network base-sepolia`: `DEPLOYED PlumeClock 0x402931fa5b7e97049b1522a05a6019dfd6196ac4 MitigationFund 0x33fae8476373818d8eb813ca6b8d6e15376c03f9 on base-sepolia (block 49570732)`.
+  - `npm run verify:contracts`: `VERIFIED on Blockscout`. `npm run check:deployment -- --network base-sepolia`: `DEPLOYMENT OK … (response window 180 s)`.
+  - `public/deployments/base-sepolia.json` is rewritten with these addresses. README and the submission draft now carry them.
+  - Explorer links: https://base-sepolia.blockscout.com/address/0x402931fa5b7e97049b1522a05a6019dfd6196ac4 and https://base-sepolia.blockscout.com/address/0x33fae8476373818d8eb813ca6b8d6e15376c03f9
 
 ### 6 · `demo:4.6` — demo run on Base Sepolia
 
@@ -396,6 +401,11 @@ Batching is fine when named ("run gates 1–2"), but never assumed.
   - Snapshot root:
     https://base-sepolia.blockscout.com/tx/0xda6cc690526594ff6610c7097826ab97369962a2a5694d0c9f71c8e8c2afd26e
 - **Status:** **done** 2026-10-16.
+- **Update, 2026-10-24 (demo-studio):** the recorded run on the new canonical deployment supersedes the 2026-10-16 run above.
+  - `npm run demo -- --network base-sepolia --fund --pause 6000` ended `DEMO OK 12 transactions`. `npm run check:demo` printed `DEMO RUN OK IRQ_S_067 resolved, KAZ_S_003 slashed (0.001 ETH to the fund)`.
+  - The MitigationFund shows 0.001 ETH on Blockscout. A scan of the deployment file, the demo file and the run log against the four stored keys found 0 matches each.
+  - Slash tx (operator B, KAZ_S_003): https://base-sepolia.blockscout.com/tx/0xa0ed0c67ede010b3c17bbec8d5740e0aabd5f4be139a0316aef5556bc5937a27
+  - The deployer holds about 0.0369 ETH after this run.
 - **Note for demo-studio:** the recorded video runs `npm run demo -- --network base-sepolia --deploy`
   on a fresh deployment, per the plan.
   - The deployer has about 0.039 ETH, enough for one more deploy plus a funded run.
@@ -541,3 +551,5 @@ Batching is fine when named ("run gates 1–2"), but never assumed.
 | 2026-10-16 | 6 | Base Sepolia demo run: 3 × 0.003 ETH funding from the deployer, 12 demo txs, operator B's 0.001 ETH bond slashed to the fund. Demo file committed. | `bf27897` |
 | 2026-10-16 | 9 | User approved the hosting approach (static export to a `gh-pages` branch after gate 8). Not run: each gate still needs its own go. | chat |
 | 2026-10-20 | 3 | User reported that their Devpost account is created. Not verified by the agent. Hackathon registration is to be confirmed at gate 11. | chat |
+| 2026-10-24 | 5 | Fresh Base Sepolia deploy for the demo video, verified on Blockscout. It becomes the canonical deployment on the user's decision. | PlumeClock `0x402931fa…96ac4` |
+| 2026-10-24 | 6 | Demo run on the new deployment (12 txs). Operator B's 0.001 ETH bond slashed to the fund. | `0xa0ed0c67…937a27` |
