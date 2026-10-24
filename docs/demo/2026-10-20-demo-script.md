@@ -48,6 +48,8 @@ Three things are on the screen: a **terminal** (runs the demo, never filmed), th
 
 **Order to record.** (a) Record S1 now. (b) Start the demo command (row 2) and let the browser recording run continuously; S2, S3 and S4 are cut from that one run. (c) When the terminal prints `DEMO OK`, record S5 and S6. A retake of S2–S4 means a new deploy and a new run.
 
+**Decision (user, 2026-10-24):** the video runs on a fresh deployment, and that deployment becomes the canonical one. After the final take, commit the new `public/deployments/base-sepolia.json` and `base-sepolia.demo.json`, then update the PlumeClock and MitigationFund addresses and the slash-transaction link in `README.md`, `docs/gates/submission-draft.md` and the gate ledger (gates 5–6 evidence).
+
 Everything on screen comes from the live chain. Nothing is staged.
 
 | id | seconds | visual (route/action/window) | narration cue | driver | wallet verbs | gate assertion | retakes | take |
@@ -119,3 +121,4 @@ Order: title card (3 s over S1) → S1 → S2 → S3 → S4 → S5 → S6 → ou
 |---|---|---|
 | 2026-10-20 | scripted | demo-studio |
 | 2026-10-24 | superseded-edit (shortened to 6 scenes, plain-language steps, terminal no longer filmed; before approval) | demo-studio |
+| 2026-10-24 | approved (whole production; fresh deployment becomes canonical) | the user |
