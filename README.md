@@ -5,7 +5,7 @@ Every satellite-detected methane super-emitter gets an on-chain ticket and a pub
 
 ## Demo
 
-TBD-post-build:demo video URL (3–5 min)
+TBD-post-build:[demo video URL (3–5 min)](https://youtu.be/ipP8JDeIPt4)
 TBD-post-build:live dashboard URL
 TBD-post-build:dashboard screenshot (docs/img/dashboard.png)
 
